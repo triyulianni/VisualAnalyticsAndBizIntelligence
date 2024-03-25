@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <title>Family Planning User Flow</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+  <!-- Additional CSS Files -->
+  <link rel="stylesheet" href="assets/css/fontawesome.css">
+  <link rel="stylesheet" href="assets/css/templatemo-tale-seo-agency.css">
+  <link rel="stylesheet" href="assets/css/owl.css">
+  <link rel="stylesheet" href="assets/css/animate.css">
+  <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+<style>
+  .header-area {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Ensure the navbar is on top of other content */
+  }
+    /* Style for showing hidden paragraphs */
+    .hidden-paragraph {
+        display: none;
+    }
+
+    .hidden-paragraph.show {
+        display: block;
+    }
+
+</style>
+</head>
+
+<body>
+
+
+  <!-- ***** Header Area Start ***** -->
+  <header class="header-area header-sticky">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-2 mx-0"> <!-- Adjust the column width as needed -->
+          <nav class="main-nav">
+            <!-- ***** Menu Start ***** -->
+            <ul class="nav flex-column"> <!-- Utilizing Bootstrap's flex-column class to align the tabs vertically -->
+              <li class="scroll-to-section"><a href="#top" class="active">Build</a></li>
+              <li class="scroll-to-section"><a href="#services">Reasons</a></li>
+              <li class="scroll-to-section"><a href="#projects">Consequences</a></li>
+                  <li><a href="charts.html">Charts</a></li>
+              </li>
+            </ul>
+            <a class='menu-trigger'>
+              <span>Menu</span>
+            </a>
+            <!-- ***** Menu End ***** -->
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  
+  
+  <!-- ***** Header Area End ***** -->
+
+  <div class="main-banner" id="top">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-7">
+          <div class="caption header-text">
+            <h6>IS428 G3</h6>
+            <div class="line-dec"></div>
+            <h4>Build <em>your</em> Ideal <span>Family</span></h4>
+            <p>How many children would you like to have in your family?</p>
+            <div class="main-button scroll-to-section"><a href="#" onclick="showStatement(0)">0</a></div>
+            <span> </span>
+            <div class="second-button"><a href="#" onclick="showStatement(1)">1</a></div>
+            <span> </span>
+            <div class="main-button scroll-to-section"><a href="#" onclick="showStatement(2)">2</a></div>
+            <span> </span>
+            <div class="second-button"><a href="#" onclick="showStatement(3)">3</a></div>
+            <span> </span>
+            <div class="main-button scroll-to-section"><a href="#" onclick="showStatement(4)">4</a></div>
+            <div id="revised-statement" style="display:none;">
+              <p>Your choice of having <span id="selectedNumberPlaceholder"></span> children reflects a trend seen in Singapore's declining total fertility rate, 
+                which reached an <b>all-time low of 0.97 in 2023</b>. Typically, sustaining a population 
+                requires an <b>average of 2.1 children per woman</b>. Your insights on the next question could 
+                help Singapore's government address this fertility decline.</p>
+          </div>
+          <div id="revised-statement1" style="display:none;">
+            <p>Your choice of having <span id="selectedNumberPlaceholder1"></span> reflects a trend <b>contrary</b> to Singapore's declining total fertility rate, 
+              which reached an <b>all-time low of 0.97 in 2023</b>. Your choice aligns with the ideal rate to sustain a generation, 
+              as it requires an <b>average of 2.1 children per woman for population stability</b>.</p>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="services section" id="services">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 offset-lg-6">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="section-heading">
+                <h2>What's your reasons behind this decision?
+                </h2>
+                <div class="line-dec"></div>
+                <p>Select your reason</p>
+              </div>
+            </div>
+            <div class="col-lg-6 col-sm-6">
+              <div class="service-item">
+                <div class="icon">
+                  <img src="assets/images/services-01.jpg" alt="discover SEO" class="templatemo-feature">
+                </div>
+                <h4>Cost of Living</h4>
+                <p>Living expenses and costs associated with childbearing</p>
+                <h4 id="cost-of-living-button" class="main-button scroll-to-section">Select</h4>
+                <!-- Additional paragraph for Cost of Living -->
+                <p id="cost-of-living-paragraph" class="hidden-paragraph">Additional paragraph for Cost of Living.</p>
+                <p id="ideal-cost-of-living-paragraph" class="hidden-paragraph">Additional paragraph for Cost of Living for Ideal Fertility Rates.</p>
+              </div>
+            </div>
+            <div class="col-lg-6 col-sm-6">
+              <div class="service-item">
+                <div class="icon">
+                  <img src="assets/images/services-01.jpg" alt="discover SEO" class="templatemo-feature">
+                </div>
+                <h4>Level of education</h4>
+                <p>Opportunity costs associated with having children</p>
+                <h4 id="education-button" class="main-button scroll-to-section">Select</h4>
+                <p id="education-paragraph" class="hidden-paragraph">Higher education correlates with increased knowledge of 
+                  and access to birth control methods, allowing for better control over fertility rates. 
+                  Moreover, it often postpones marriage due to career pursuits, reducing the number of 
+                  childbearing years and consequently impacting fertility rates negatively</p>
+                <p id="ideal-education-paragraph" class="hidden-paragraph"> Lower levels of education often mean less awareness about and limited access to birth control methods,
+                  which can result in a more ideal fertility rates.</p>
+              </div>
+            </div>
+            <div class="col-lg-6 col-sm-6">
+              <div class="service-item">
+                <div class="icon">
+                  <img src="assets/images/services-02.jpg" alt="data analysis" class="templatemo-feature">
+                </div>
+                <h4>Commitment to Work</h4>
+                <p>Increased workload and stress from job responsibilities</p>
+                <h4 id="work-button" class="main-button scroll-to-section">Select</h4>
+                <p id="work-paragraph" class="hidden-paragraph">Additional paragraph for Commitment to work.</p>
+                <p id="ideal-work-paragraph" class="hidden-paragraph">Additional paragraph for Commitment to work for Ideal Fertility Rates.</p>
+              </div>
+            </div>
+            <div class="col-lg-6 col-sm-6">
+              <div class="service-item">
+                <div class="icon">
+                  <img src="assets/images/services-03.jpg" alt="precise data" class="templatemo-feature">
+                </div>
+                <h4>Use of contraceptives</h4>
+                <p>Financial or personal reasons hinder access to contraception</p>
+                <h4 id="contraceptives-button" class="main-button scroll-to-section">Select</h4>
+                <p id="ideal-contraceptives-paragraph" class="hidden-paragraph">Misconceptions in developing countries 
+                  about contraceptives harming women's health lead to low usage, increasing unintended pregnancies and high fertility rates.</p>
+                  <p id="contraceptives-paragraph" class="hidden-paragraph">Developed countries, where contraceptive education is widespread, 
+                    tend to have lower fertility rates due to higher contraceptive usage</p>
+              </div>
+            </div>
+            <div class="col-lg-6 col-sm-6">
+              <div class="service-item">
+                <div class="icon">
+                  <img src="assets/images/services-04.jpg" alt="SEO marketing" class="templatemo-feature">
+                </div>
+                <h4>Factors affecting my children's lifespan</h4>
+                <p>Concerns regarding the potential impacts of environmental or genetic factors on my children's lifespan</p>
+                <h4 id="lifespan-button" class="main-button scroll-to-section">Select</h4>
+                  <p id="lifespan-paragraph" class="hidden-paragraph">Reduced child mortality rates instill confidence in child survival, lessening the necessity for additional children to provide financial support. 
+                    This reduces the need for having additional children solely for financial support, ultimately leading to lower fertility rates.</p>
+                  <p id="ideal-lifespan-paragraph" class="hidden-paragraph">The Replacement Effect of Infant Mortality highlights how high infant mortality rates in some 
+                    nations drive a desire for larger families. In response, families often have more children to offset mortality, 
+                    ultimately leading to a higher and a more ideal fertility rates. </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="projects section" id="projects">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="section-heading">
+            <h2>On a larger scale (country level), how would your decision affect your country?</h2>
+            <div class="line-dec"></div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doers eiusmod.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+  </div>
+
+
+
+  <!-- Scripts -->
+  <script> 
+    var selectedNumber = 0;
+
+    function showStatement(number) {
+    selectedNumber = number;
+    var selectedNumberPlaceholder = document.getElementById('selectedNumberPlaceholder');
+    var selectedNumberPlaceholder1 = document.getElementById('selectedNumberPlaceholder1')
+    selectedNumberPlaceholder.textContent = selectedNumber;
+    if (parseInt(selectedNumber) < 2) {
+        selectedNumberPlaceholder.textContent = selectedNumber;
+        document.getElementById('revised-statement').style.display = 'block';
+        document.getElementById('revised-statement1').style.display = 'none'; // Hide revised-statement1 if selectedNumber is less than 2
+    } 
+    else if (parseInt(selectedNumber) >= 2) {
+        selectedNumberPlaceholder1.textContent = selectedNumber;
+        document.getElementById('revised-statement').style.display = 'none'; // Hide revised-statement if selectedNumber is greater than or equal to 2
+        document.getElementById('revised-statement1').style.display = 'block';
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    var costOfLivingButton = document.getElementById("cost-of-living-button");
+    var costOfLivingParagraph = document.getElementById("cost-of-living-paragraph");
+    var idealCostOfLivingParagraph = document.getElementById("ideal-cost-of-living-paragraph");
+    costOfLivingButton.addEventListener("click", function() {
+        if (selectedNumber < 2) {
+            costOfLivingParagraph.classList.toggle("show");
+            idealCostOfLivingParagraph.classList.remove("show"); // Ensure the other paragraph is hidden
+        } else {
+            idealCostOfLivingParagraph.classList.toggle("show");
+            costOfLivingParagraph.classList.remove("show"); // Ensure the other paragraph is hidden
+        }
+    });
+
+    var educationButton = document.getElementById("education-button");
+    var educationParagraph = document.getElementById("education-paragraph");
+    var idealEducationParagraph = document.getElementById("ideal-education-paragraph")
+    educationButton.addEventListener("click", function() {
+        if (selectedNumber < 2) {
+            educationParagraph.classList.toggle("show");
+            idealEducationParagraph.classList.remove("show"); // Ensure the other paragraph is hidden
+        } else {
+            idealEducationParagraph.classList.toggle("show");
+            educationParagraph.classList.remove("show"); // Ensure the other paragraph is hidden
+        }
+    });
+
+    var workButton = document.getElementById("work-button");
+    var workParagraph = document.getElementById("work-paragraph");
+    var idealWorkParagraph = document.getElementById("ideal-work-paragraph");
+    workButton.addEventListener("click", function() {
+      if (selectedNumber < 2) {
+            workParagraph.classList.toggle("show");
+            idealWorkParagraph.classList.remove("show"); // Ensure the other paragraph is hidden
+        } else {
+            idealWorkParagraph.classList.toggle("show");
+            workParagraph.classList.remove("show"); // Ensure the other paragraph is hidden
+        }
+    });
+
+    var contraceptivesButton = document.getElementById("contraceptives-button");
+    var contraceptivesParagraph = document.getElementById("contraceptives-paragraph");
+    var idealContraceptivesParagraph = document.getElementById("ideal-contraceptives-paragraph");
+    contraceptivesButton.addEventListener("click", function() {
+      if (selectedNumber < 2) {
+            contraceptivesParagraph.classList.toggle("show");
+            idealContraceptivesParagraph.classList.remove("show"); // Ensure the other paragraph is hidden
+        } else {
+            idealContraceptivesParagraph.classList.toggle("show");
+            contraceptivesParagraph.classList.remove("show"); // Ensure the other paragraph is hidden
+        }
+    });
+
+    var lifespanButton = document.getElementById("lifespan-button");
+    var lifespanParagraph = document.getElementById("lifespan-paragraph");
+    var idealLifespanParagraph = document.getElementById("ideal-lifespan-paragraph")
+    lifespanButton.addEventListener("click", function() {
+      if (selectedNumber < 2) {
+            lifespanParagraph.classList.toggle("show");
+            idealLifespanParagraph.classList.remove("show"); // Ensure the other paragraph is hidden
+        } else {
+            idealLifespanParagraph.classList.toggle("show");
+            lifespanParagraph.classList.remove("show"); // Ensure the other paragraph is hidden
+        }
+    });
+  });
+  </script>
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+  <script src="assets/js/isotope.min.js"></script>
+  <script src="assets/js/owl-carousel.js"></script>
+  <script src="assets/js/tabs.js"></script>
+  <script src="assets/js/popup.js"></script>
+  <script src="assets/js/custom.js"></script>
+
+
+</body>
+
+</html>
