@@ -22,7 +22,13 @@
       width: 100%;
       z-index: 1000; /* Ensure the navbar is on top of other content */
     }
+    .page-heading {
+  padding: 60px 0px;
+  margin-top: 110px;
+}
   </style>
+
+ 
 </head>
 
 <body>
@@ -56,7 +62,7 @@
 
   <div class="page-heading">
   
-    <h6 class="text-center">Our visualisations</h6>
+    <h6 class="text-center mt-0">Our visualisations</h6>
 
        
 
@@ -91,85 +97,150 @@
             
             <div class="container mt-4">
     <div class="row align-items-center">
-        <div class="col-auto pr-2">
-            <img
-            src="https://flagcdn.com/56x42/sg.png"
-            srcset="https://flagcdn.com/112x84/sg.png 2x,
-              https://flagcdn.com/168x126/sg.png 3x"
-            width="56"
-            height="42"
-            alt="Singapore">
-        </div>
+        
         <div class="col">
-            <h2 class="pb-2">Consequences of Low/ High Ferility Rates</h2>
+            <h2 class="pb-2 text-center">Consequences of Low/ High Ferility Rates</h2>
         </div>
     </div>
 
+    <ul class="nav nav-tabs justify-content-center py-3" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="demo-tab" data-bs-toggle="tab" data-bs-target="#demo" type="button" role="tab" aria-controls="demo" aria-selected="true">Demographic</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="eco-tab" data-bs-toggle="tab" data-bs-target="#eco" type="button" role="tab" aria-controls="eco" aria-selected="false">Economic</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="health-tab" data-bs-toggle="tab" data-bs-target="#health" type="button" role="tab" aria-controls="health" aria-selected="false">Healthcare</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="edu-tab" data-bs-toggle="tab" data-bs-target="#edu" type="button" role="tab" aria-controls="edu" aria-selected="false">Education</button>
+      </li>
+    </ul>
+    
+
+    <div class="tab-content py-4" id="myTabContent">
+      <div class="tab-pane fade show active" id="demo" role="tabpanel" aria-labelledby="demo-tab">
+          <div class = "container">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th colspan="2" class="colspan-2 bg-dark text-white text-center" align="center">Consequence type</th> <!-- Use Bootstrap class to span two columns -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colspan="2" align="center">Population Growth</td>
+                 
+                </tr>
+                <tr>
+                  <td class = "col-auto" align="right"><p align="right">Global</p><div id="observablehq-popgrowth-de478a60">Global</div></td>
+                  <td class = "col-auto" align="left"><p align="left">Singapore</p><div id="observablehq-PopulationGrowth-de478a60"></div></td>
+                </tr>
+              
+              </tbody>
+            </table>
+          </div> 
+      </div>
+
+      <div class="tab-pane fade" id="eco" role="tabpanel" aria-labelledby="eco-tab"> 
+      
+        <div class = "container">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th colspan="2" class="colspan-2 bg-dark text-white text-center" align="center">Consequence type</th> <!-- Use Bootstrap class to span two columns -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="2" align="center">Labor Force Participation</td>
+               
+              </tr>
+              <tr>
+                <td class = "col-auto" align="right"><p align="right">Global</p><div id="observablehq-laborforcepop-de478a60"></div></td>
+                <td class = "col-auto" align="left"><p align="left">Singapore</p><div id="observablehq-LabourForce1-de478a60"></div></td>
+              </tr>
+
+              <tr>
+                <td colspan="2" align="center">Tax Revenue</td>
+               
+              </tr>
+              <tr>
+                <td class = "col-auto" align="right"><p align="right">Global</p><div id="observablehq-taxrevenue-de478a60"></div></td>
+                <td class = "col-auto" align="left"><p align="left">Singapore</p><div id="observablehq-TaxRevenue-de478a60"></div></td>
+              </tr>
+
+
+            
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="health" role="tabpanel" aria-labelledby="heath-tab">
+        <div class = "container">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th colspan="2" class="colspan-2 bg-dark text-white text-center" align="center">Consequence type</th> <!-- Use Bootstrap class to span two columns -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="2" align="center">Healthcare Expenditure</td>
+               
+              </tr>
+              <tr>
+                <td class = "col-auto" align="right"><p align="right">Global</p><div id="observablehq-healthexp-de478a60"></div></td>
+                <td class = "col-auto" align="left"><p align="left">Singapore</p><div id="observablehq-Health-de478a60"></div></td>
+              </tr>
+
+              <tr>
+                <td colspan="2" align="center">Number of Long Term care Facilities</td>
+               
+              </tr>
+              <tr>
+                <td class = "col-auto" align="right"><p align="right">Global</p><div id="observablehq-elderlybeds-de478a60"></div></td>
+                <td class = "col-auto" align="left"><p align="left">Singapore</p><div id="observablehq-LongTermCareFacilities-de478a60"></div></td>
+              </tr>
+
+
+            
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="edu" role="tabpanel" aria-labelledby="edu-tab">
+        <div class = "container">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th colspan="2" class="colspan-2 bg-dark text-white text-center" align="center">Consequence type</th> <!-- Use Bootstrap class to span two columns -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="2" align="center">Education Expenditure</td>
+               
+              </tr>
+              <tr>
+                <td class = "col-auto" align="right"><p align="right">Global</p><div id="observablehq-eduexp-de478a60"></div></td>
+                <td class = "col-auto" align="left"><p align="left">Singapore</p><div id="observablehq-EducationExpenditure-de478a60"></div></td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
     
     
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th colspan="2" class="colspan-2" align="center">Consequence type</th> <!-- Use Bootstrap class to span two columns -->
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td colspan="2" align="center">Population Growth</td>
-         
-        </tr>
-        <tr>
-          <td class = "col-auto" align="right"><p>Global</p><div id="observablehq-popgrowth-3c01df3b"></div></td>
-          <td align="left"><p>Singapore</p><div id="observablehq-TaxRevenue-0c51949e"></div></td>
-        </tr>
-        
-        <tr>
-            <td>Total Labour Force</td>
-            <td>Total Unemployment Rate</td>
-          </tr>
-          <tr>
-            <td class = "col-auto"><div id="observablehq-LabourForce1-0c51949e"></div></td>
-            <td><div id="observablehq-TotalUnemploymentRate-0c51949e"></div></td>
-          </tr>
-
-          <tr>
-            <td>Resident Unemployment Rate</td>
-            <td>Total Employed</td>
-          </tr>
-          <tr>
-            <td class = "col-auto"><div id="observablehq-ResidentUnemploymentRate1-0c51949e"></div></td>
-            <td><div id="observablehq-TotalEmployed-0c51949e"></div></td>
-          </tr>
-
-        <tr>
-            <td>Total Unemployed</td>
-            <td>Healthcare Expenditure</td>
-          </tr>
-          <tr>
-            <td class = "col-auto"><div id="observablehq-TotalUnemployed-0c51949e"></div></td>
-            <td><div id="observablehq-Health-0c51949e"></div></td>
-          </tr>
-
-          <tr>
-            <td>Number of Long Term Care Facilities</td>
-            <td>Education Expenditure</td>
-          </tr>
-          <tr>
-            <td class = "col-auto"><div id="observablehq-LongTermCareFacilities-0c51949e"></div></td>
-            <td><div id="observablehq-EducationExpenditure-0c51949e"></div></td>
-          </tr>
-
-
-          <tr>
-            <td>Number of Primary Schools</td>
-            <td>Number of Secondary Schools</td>
-          </tr>
-          <tr>
-            <td class = "col-auto"><div id="observablehq-Primary_School-0c51949e"></div></td>
-            <td><div id="observablehq-Secondary_School-0c51949e"></div></td>
-          </tr>
-      </tbody>
-    </table>
+    
+  </div>
+    
+    
+    
   </div>
         </div>
 
@@ -178,38 +249,71 @@
     </div>
   </div>
   
-
-  <!-- Local scatterplots -->
+    
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@5/dist/inspector.css">
   <script type="module">
   import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
-  import define from "https://api.observablehq.com/d/e005568a85810417@209.js?v=4";
+  import define from "https://api.observablehq.com/d/e005568a85810417@229.js?v=4";
   new Runtime().module(define, name => {
-    if (name === "popgrowth") return new Inspector(document.querySelector("#observablehq-popgrowth-3c01df3b"));
+    if (name === "popgrowth") return new Inspector(document.querySelector("#observablehq-popgrowth-de478a60"));
+    if (name === "wprkingage") return new Inspector(document.querySelector("#observablehq-wprkingage-de478a60"));
+    if (name === "laborforcepop") return new Inspector(document.querySelector("#observablehq-laborforcepop-de478a60"));
+    if (name === "eduexp") return new Inspector(document.querySelector("#observablehq-eduexp-de478a60"));
+    if (name === "teacherpupil") return new Inspector(document.querySelector("#observablehq-teacherpupil-de478a60"));
+    if (name === "elderlybeds") return new Inspector(document.querySelector("#observablehq-elderlybeds-de478a60"));
+    if (name === "healthexp") return new Inspector(document.querySelector("#observablehq-healthexp-de478a60"));
+    if (name === "taxrevenue") return new Inspector(document.querySelector("#observablehq-taxrevenue-de478a60"));
+  });
+  </script>
+  <!-- Local scatterplots -->
+  <div class = "hideplots d-none">
+    <!-- Global scatterplots -->
+    <div id="observablehq-popgrowth-de478a60"></div>
+    <div id="observablehq-wprkingage-de478a60"></div>
+    <div id="observablehq-laborforcepop-de478a60"></div>
+    <div id="observablehq-eduexp-de478a60"></div>
+    <div id="observablehq-teacherpupil-de478a60"></div>
+    <div id="observablehq-elderlybeds-de478a60"></div>
+    <div id="observablehq-healthexp-de478a60"></div>
+    <div id="observablehq-taxrevenue-de478a60"></div>
+
+      <!-- Local scatterplots -->
+    <div id="observablehq-Secondary_School-de478a60"></div>
+    <div id="observablehq-Primary_School-de478a60"></div>
+    <div id="observablehq-TaxRevenue-de478a60"></div>
+    <div id="observablehq-TotalEmployed-de478a60"></div>
+    <div id="observablehq-TotalUnemployed-de478a60"></div>
+    <div id="observablehq-TotalUnemploymentRate-de478a60"></div>
+    <div id="observablehq-ResidentUnemploymentRate1-de478a60"></div>
+    <div id="observablehq-LabourForce1-de478a60"></div>
+    <div id="observablehq-LongTermCareFacilities-de478a60"></div>
+    <div id="observablehq-EducationExpenditure-de478a60"></div>
+    <div id="observablehq-Health-de478a60"></div>
+  </div>
+  
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@5/dist/inspector.css">
+  <script type="module">
+  import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
+  import define from "https://api.observablehq.com/d/e005568a85810417@229.js?v=4";
+  new Runtime().module(define, name => {
+    if (name === "Secondary_School") return new Inspector(document.querySelector("#observablehq-Secondary_School-de478a60"));
+    if (name === "Primary_School") return new Inspector(document.querySelector("#observablehq-Primary_School-de478a60"));
+    if (name === "TaxRevenue") return new Inspector(document.querySelector("#observablehq-TaxRevenue-de478a60"));
+    if (name === "TotalEmployed") return new Inspector(document.querySelector("#observablehq-TotalEmployed-de478a60"));
+    if (name === "TotalUnemployed") return new Inspector(document.querySelector("#observablehq-TotalUnemployed-de478a60"));
+    if (name === "TotalUnemploymentRate") return new Inspector(document.querySelector("#observablehq-TotalUnemploymentRate-de478a60"));
+    if (name === "ResidentUnemploymentRate1") return new Inspector(document.querySelector("#observablehq-ResidentUnemploymentRate1-de478a60"));
+    if (name === "LabourForce1") return new Inspector(document.querySelector("#observablehq-LabourForce1-de478a60"));
+    if (name === "LongTermCareFacilities") return new Inspector(document.querySelector("#observablehq-LongTermCareFacilities-de478a60"));
+    if (name === "EducationExpenditure") return new Inspector(document.querySelector("#observablehq-EducationExpenditure-de478a60"));
+    if (name === "Health") return new Inspector(document.querySelector("#observablehq-Health-de478a60"));
+    if (name === "PopulationGrowth") return new Inspector(document.querySelector("#observablehq-PopulationGrowth-de478a60"));
   });
   </script>
 
 
-  <!-- Local scatterplots -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@5/dist/inspector.css">
-  <script type="module">
-  import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
-  import define from "https://api.observablehq.com/d/e005568a85810417.js?v=4";
-  new Runtime().module(define, name => {
-    if (name === "Secondary_School") return new Inspector(document.querySelector("#observablehq-Secondary_School-0c51949e"));
-    if (name === "Primary_School") return new Inspector(document.querySelector("#observablehq-Primary_School-0c51949e"));
-    if (name === "TaxRevenue") return new Inspector(document.querySelector("#observablehq-TaxRevenue-0c51949e"));
-    if (name === "TotalEmployed") return new Inspector(document.querySelector("#observablehq-TotalEmployed-0c51949e"));
-    if (name === "TotalUnemployed") return new Inspector(document.querySelector("#observablehq-TotalUnemployed-0c51949e"));
-    if (name === "TotalUnemploymentRate") return new Inspector(document.querySelector("#observablehq-TotalUnemploymentRate-0c51949e"));
-    if (name === "ResidentUnemploymentRate1") return new Inspector(document.querySelector("#observablehq-ResidentUnemploymentRate1-0c51949e"));
-    if (name === "LabourForce1") return new Inspector(document.querySelector("#observablehq-LabourForce1-0c51949e"));
-    if (name === "LongTermCareFacilities") return new Inspector(document.querySelector("#observablehq-LongTermCareFacilities-0c51949e"));
-    if (name === "EducationExpenditure") return new Inspector(document.querySelector("#observablehq-EducationExpenditure-0c51949e"));
-    if (name === "Health") return new Inspector(document.querySelector("#observablehq-Health-0c51949e"));
-    if (name === "PopulationGrowth") return new Inspector(document.querySelector("#observablehq-PopulationGrowth-0c51949e"));
-  });
-  </script>
+
 
 
 
