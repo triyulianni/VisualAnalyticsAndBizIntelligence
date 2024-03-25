@@ -224,18 +224,6 @@
   }
 
   document.addEventListener("DOMContentLoaded", function() {
-    var costOfLivingButton = document.getElementById("cost-of-living-button");
-    var costOfLivingParagraph = document.getElementById("cost-of-living-paragraph");
-    var idealCostOfLivingParagraph = document.getElementById("ideal-cost-of-living-paragraph");
-    costOfLivingButton.addEventListener("click", function() {
-        if (selectedNumber < 2) {
-            costOfLivingParagraph.classList.toggle("show");
-            idealCostOfLivingParagraph.classList.remove("show"); // Ensure the other paragraph is hidden
-        } else {
-            idealCostOfLivingParagraph.classList.toggle("show");
-            costOfLivingParagraph.classList.remove("show"); // Ensure the other paragraph is hidden
-        }
-    });
 
     var educationButton = document.getElementById("education-button");
     var educationParagraph = document.getElementById("education-paragraph");
