@@ -82,8 +82,367 @@
       <div class="tab-content py-4" id="myTabContent">
         <div class="tab-pane fade show active" id="task1" role="tabpanel" aria-labelledby="task1-tab">
             <div class = "container">
-                <h6>An Overview of Population and Fertility Rate Statistics</h6>
+                <h6 class="pb-2 text-center">An Overview of Population and Fertility Rate Statistics</h6> <br><br>
             </div> 
+
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- python3 -m http.server 8000 -->
+
+<!-- select buttons -->
+
+<div id="selectionBox"> 
+  <select id="selectButtonCountry"></select>
+  <button type="button" id="selectSg" class="btn btn-secondary">Singapore</button>
+</div>
+<div id="container">
+  <div id="my_dataviz"></div>
+  <div id="viz_container"></div>
+</div>
+
+<h5 style="color: purple;" align="center">Global Trends: Fertility Rates Over Time</h5> <br>
+<!-- racing chart -->
+<div id="observablehq-viewof-replay-f0ea302e"></div>
+<div id="observablehq-chart-f0ea302e"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@5/dist/inspector.css"> 
+
+<!-- Color Scale -->
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
+<script type="module">
+// racing chart
+import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
+import define from "https://api.observablehq.com/d/a2eb0714a8e5d43c.js?v=4";
+new Runtime().module(define, name => {
+  if (name === "viewof replay") return new Inspector(document.querySelector("#observablehq-viewof-replay-f0ea302e"));
+  if (name === "chart") return new Inspector(document.querySelector("#observablehq-chart-f0ea302e"));
+});
+
+// Append the title with inline style
+var title = d3.select("#my_dataviz")
+    .append("h5")
+    .style("color", "purple")
+    .text("Changes in Fertility Rate Over Time");
+
+
+fertilityOverTime()
+
+
+populationPyramid("1950","Afghanistan")
+var selectedCountry = ""
+
+function fertilityOverTime(){
+    // set the dimensions and margins of the graph
+    var dataFilter = []
+    
+    var margin = {top: 20, right: 30, bottom: 30, left: 60},
+        width = 500 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
+    
+
+    // append the svg object to the body of the page
+    var svg = d3.select("#my_dataviz")
+      .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform",
+              "translate(" + margin.left + "," + margin.top + ")")
+      
+    //Read the data
+      d3.csv("children-per-woman-un3 2.csv", function(data) {
+    
+        // dataFilter = data
+        var allGroup = d3.map(data, function(d){return(d.name)}).keys()
+        // add the options to the button
+        d3.select("#selectButtonCountry")
+          .selectAll('myOptions')
+             .data(allGroup)
+          .enter()
+            .append('option')
+          .text(function (d) { return d; }) // text showed in the menu
+          .attr("value", function (d) { return d; }) // corresponding value returned by the button
+    
+        // A color scale: one color for each group
+        var myColor = d3.scaleOrdinal()
+          .domain(allGroup)
+          .range(d3.schemeSet2);
+    
+        // Add X axis --> it is a date format
+        var x = d3.scaleLinear()
+          .domain(d3.extent(data, function(d) { return d.year; }))
+          .range([0, width]);
+        svg.append("g")
+          .attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(x).ticks(7));
+    
+        // Add Y axis
+        var y = d3.scaleLinear()
+          .domain([0, d3.max(data, function(d) { return +d.n; })])
+          .range([ height, 0 ]);
+        svg.append("g")
+          .call(d3.axisLeft(y));
+    
+        // Initialize line with first group of the list
+        var line = svg
+          .append('g')
+          .append("path")
+            .datum(data.filter(function(d){return d.name==allGroup[0]}))
+            .attr("d", d3.line()
+              .x(function(d) { return x(d.year) })
+              .y(function(d) { return y(+d.n) })
+            )   
+            .attr("stroke", function(d){ return myColor("valueA") })
+            .style("stroke-width", 4)
+            .style("fill", "none")
+    
+        // When the button is changed, run the updateChart function
+        d3.select("#selectButtonCountry").on("change", function(d) {
+    
+            // recover the option that has been chosen
+            var selectedOption = d3.select(this).property("value")
+            // run the updateChart function with this selected option
+            updateFertilityLine(selectedOption)
+            selectedCountry = selectedOption
+            populationPyramid("1950",selectedOption)
+        })
+        d3.select("#selectSg").on("click", function(d) {
+            updateToSG()
+        })
+
+  // tooltip
+         var Tooltip = d3.select("#my_dataviz")
+        .append("div")
+        .style("opacity", 100)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+        .html("Year:"+ "<br>"+ "Fertility Rate:")
+
+    function updateFertilityLine(selectedGroup) {
+          // Create new data with the selection?
+          dataFilter = data.filter(function(d){return d.name==selectedGroup})
+          // Give these new data to update line
+          line
+              .datum(dataFilter)
+              .transition()
+              .duration(1000)
+              .attr("d", d3.line()
+                .x(function(d) { return x(d.year) })
+                .y(function(d) { return y(+d.n) })
+              )
+              .attr("stroke", function(d){ return myColor(selectedGroup) })
+        }
+
+        function updateToSG() {
+          document.getElementById('selectButtonCountry').value = 'Singapore';
+           
+          dataFilter = data.filter(function(d){return d.name=="Singapore"})
+          
+          // Give these new data to update line
+          line
+              .datum(dataFilter)
+              .transition()
+              .duration(1000)
+              .attr("d", d3.line()
+                .x(function(d) { return x(d.year) })
+                .y(function(d) { return y(+d.n) })
+              )
+              // .attr("stroke", function(d){ return myColor(selectedGroup) })
+        }
+        updateFertilityLine("All")
+    svg
+        .on("mousemove", mousemove)
+      
+    // Define the bisectDate function
+var bisectDate = d3.bisector(function(d) { return d.year; }).left;
+
+// Now you can use the bisectDate function in your mousemove function
+function mousemove() {
+    var x0 = x.invert(d3.mouse(this)[0]);
+    var i = bisectDate(dataFilter, x0, 1);
+    var d0 = dataFilter[i - 1];
+    var d1 = dataFilter[i];
+    var d = x0 - d0.year > d1.year - x0 ? d1 : d0;
+
+    Tooltip.html("Year: <b>" + d.year + "</b> <br>"+ "Fertility Rate: <b>" + d.n + "</b>");
+    populationPyramid(d.year, selectedCountry);
+  }
+
+     })
+    }
+
+function populationPyramid(year,country){
+  // set the dimensions and margins of the graph
+  const margin = {top: 20, right: 20, bottom: 30, left: 60};
+  const width = 450 - margin.left - margin.right;
+  const height = 350 - margin.top - margin.bottom;
+
+  // append the svg object to the body of the page
+  const svg = d3.select("#viz_container")
+    .append("svg")
+      .attr("width", "100%")
+      .attr("height", "100%")
+      .attr("viewBox", "0 0 450 350")
+      .attr("preserveAspectRatio", "xMinYMin")
+    .append("g")
+      .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+  // parse the Data
+  
+  d3.csv("population_pyramid_1950-2022 edited 2 2.csv", function(data){
+    data = data.filter(function(d){return d.Country==country})
+    data = data.filter(function(d){return d.Year==year})
+    
+    
+    // var allGroupPyramidYear = Array.from(new Set(d3.map(data, function(d){return(d.Year)})).keys())
+    // d3.select("#selectButtonPyramidYear")
+    //   .selectAll('myOptions')
+    //       .data(allGroupPyramidYear)
+    //   .enter()
+    //     .append('option')
+    //   .text(function (d) { return d; }) // text showed in the menu
+    //   .attr("value", function (d) { return d; }) // corresponding value returned by the button
+
+    // var allGroupPyramidCountry = Array.from(new Set(d3.map(data, function(d){return(d.Country)})).keys())
+    // d3.select("#selectButtonPyramidCountry")
+    //   .selectAll('myOptions')
+    //       .data(allGroupPyramidCountry)
+    //   .enter()
+    //     .append('option')
+    //   .text(function (d) { return d; }) // text showed in the menu
+    //   .attr("value", function (d) { return d; }) // corresponding value returned by the button
+
+  // X scale and Axis
+  const xScaleMale = d3.scaleLinear()
+    .domain([0, d3.max(data, d => +d.male)])
+    .range([width/2, 0]);
+  svg
+    .append("g")
+        .attr("transform", `translate(0, ${height})`)
+    .call(d3.axisBottom(xScaleMale).tickSize(0).tickPadding(3).ticks(7, "%"))
+    .call(function(d) { return d.select(".domain").remove()});
+
+  const xScaleFemale = d3.scaleLinear()
+    .domain([0, d3.max(data, d => +d.female)])
+    .range([width/2, width]);
+  svg
+    .append("g")
+        .attr("transform", `translate(0, ${height})`)
+    .call(d3.axisBottom(xScaleFemale).tickSize(0).tickPadding(3).ticks(7, "%"))
+    .call(function(d) { return d.select(".domain").remove()});
+
+  // Y scale and Axis
+  const yScale = d3.scaleBand()
+      .domain(data.map(d => d.Age))
+      .range([height, 0])
+      .padding(.25);
+  svg
+      .append("g")
+      .call(d3.axisLeft(yScale).tickSize(0).tickPadding(15))
+      .call(d => d.select(".domain").remove());
+
+  svg.selectAll(".maleBar")
+    .data(data)
+    .enter()
+    .append("rect")
+    .attr("class", "barMale")
+    .attr("x", d => xScaleMale(d.male))
+      .attr("y", d => yScale(d.Age))
+    .attr("width", function(d) { return width/2 - xScaleMale(d.male); })
+    .attr("height", yScale.bandwidth())
+    .style("fill", "#18375F")
+
+  // create female bars
+  svg.selectAll(".femaleBar")
+    .data(data)
+    .enter()
+    .append("rect")
+    .attr("class", "barFemale")
+    .attr("x", function(d) { return xScaleFemale(0); })
+    .attr("y", function(d) { return yScale(d.Age); })
+    .attr("width", function(d) { return xScaleFemale(d.female) - xScaleFemale(0); })
+    .attr("height", yScale.bandwidth())
+    .style("fill", "#0072BC")
+
+  // set title
+//   svg
+//     .append("text")
+//       .attr("class", "chart-title")
+//       .attr("x", -(margin.left)*0.7)
+//       .attr("y", -(margin.top)/1.5)
+//       .attr("text-anchor", "start")
+//     .text("Demographics of forcibly displaced people | 2020")
+
+  // set source
+//   svg
+//     .append("text")
+//       .attr("class", "chart-source")
+//       .attr("x", -(margin.left)*0.7)
+//       .attr("y", height + margin.bottom*0.7)
+//       .attr("text-anchor", "start")
+//     .text("Source: UNHCR")
+
+//   // set copyright
+//   svg
+//     .append("text")
+//       .attr("class", "copyright")
+//       .attr("x", -(margin.left)*0.7)
+//       .attr("y", height + margin.bottom*0.9)
+//       .attr("text-anchor", "start")
+//     .text("©UNHCR, The UN Refugee Agency")
+
+  //set legend
+  svg
+      .append("rect")
+          .attr("x", -(margin.left)*0.7)
+          .attr("y", -(margin.top/1.5))
+          .attr("width", 13)
+          .attr("height", 13)
+          .style("fill", "#18375F")
+  svg
+      .append("text")
+          .attr("class", "legend")
+          .attr("x", -(margin.left)*0.6+15)
+          .attr("y", -(margin.top/5.5))
+      .text("Male")
+  svg
+      .append("rect")
+          .attr("x", 40)
+          .attr("y", -(margin.top/1.5))
+          .attr("width", 13)
+          .attr("height", 13)
+          .style("fill", "#0072BC")
+  svg
+      .append("text")
+          .attr("class", "legend")
+          .attr("x", 60)
+          .attr("y", -(margin.top/5.5))
+      .text("Female")
+
+  })
+}
+    </script>
+
+<style>
+#container {
+    display: flex;
+    margin-bottom: 50px;
+}
+
+#my_dataviz, #viz_container {
+    width: 50%;
+    margin: 20px;
+}
+
+
+</style>
+
         </div>
         
 
