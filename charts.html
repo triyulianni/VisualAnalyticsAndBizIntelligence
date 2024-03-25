@@ -82,9 +82,10 @@
       <div class="tab-content py-4" id="myTabContent">
         <div class="tab-pane fade show active" id="task1" role="tabpanel" aria-labelledby="task1-tab">
             <div class = "container">
-                <h6>Task 1</h6>
+                <h6>An Overview of Population and Fertility Rate Statistics</h6>
             </div> 
         </div>
+        
 
         <div class="tab-pane fade" id="task2" role="tabpanel" aria-labelledby="task2-tab"> 
         
@@ -99,7 +100,7 @@
     <div class="row align-items-center">
         
         <div class="col">
-            <h2 class="pb-2 text-center">Consequences of Low/ High Ferility Rates</h2>
+            <h6 class="pb-2 text-center">Consequences of Low or High Ferility Rates</h6>
         </div>
     </div>
 
@@ -125,7 +126,7 @@
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th colspan="2" class="colspan-2 bg-dark text-white text-center" align="center">Consequence type</th> <!-- Use Bootstrap class to span two columns -->
+                  <th colspan="2" class="colspan-2 bg-dark text-white text-center" align="center">Fertility Rate's Consequences Data Distribution</th> <!-- Use Bootstrap class to span two columns -->
                 </tr>
               </thead>
               <tbody>
@@ -155,7 +156,6 @@
             <tbody>
               <tr>
                 <td colspan="2" align="center">Labor Force Participation</td>
-               
               </tr>
               <tr>
                 <td class = "col-auto" align="right"><p align="right">Global</p><div id="observablehq-laborforcepop-de478a60"></div></td>
@@ -169,10 +169,7 @@
               <tr>
                 <td class = "col-auto" align="right"><p align="right">Global</p><div id="observablehq-taxrevenue-de478a60"></div></td>
                 <td class = "col-auto" align="left"><p align="left">Singapore</p><div id="observablehq-TaxRevenue-de478a60"></div></td>
-              </tr>
-
-
-            
+              </tr>     
             </tbody>
           </table>
         </div>
@@ -234,18 +231,41 @@
           </table>
         </div>
       </div>
-    
-    
-    
   </div>
-    
-    
-    
+  <div class = "container">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th colspan="2" class="colspan-2 bg-dark text-white text-center" align="center">Consequence type</th> <!-- Use Bootstrap class to span two columns -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="2" align="center">Singapore</td>
+        </tr>
+        <tr>
+          <td class="text-center" colspan="2">
+            <iframe width="100%" height="684" frameborder="0"
+            src="https://observablehq.com/embed/15a93d12bc305b49@491?cells=chart&api_key=8583f615a513ebb83c43af422650d1c41631515a"></iframe>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" align="center">Global</td>
+        </tr>
+        <tr>
+          <td class="text-center" colspan="2">
+            <iframe width="100%" height="684" frameborder="0"
+            src="https://observablehq.com/embed/45379202fe5b6ea0@524?cells=chart&api_key=d1ebdddac6d54d3ae06937ad68e9706bfdd834c9"></iframe>
+          </td>
+        </tr>     
+      </tbody>
+    </table>
+  </div>
   </div>
         </div>
 
     </div>
-      
+  
     </div>
   </div>
   
@@ -314,8 +334,8 @@
 
 
 
-
-
+  <!-- Task 1 Chart --> 
+  <script src="https://d3js.org/d3.v4.js"></script>
 
   <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->
