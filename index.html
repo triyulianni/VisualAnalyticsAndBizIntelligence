@@ -21,6 +21,61 @@
   <link rel="stylesheet" href="assets/css/owl.css">
   <link rel="stylesheet" href="assets/css/animate.css">
   <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@5/dist/inspector.css"
+/>
+
+<style>
+  svg {
+    font: 10px sans-serif;
+    padding: 10px;
+  }
+
+  .axis,
+  .frame {
+    shape-rendering: crispEdges;
+  }
+
+  .axis line {
+    stroke: #ddd;
+  }
+
+  .axis path {
+    display: none;
+  }
+
+  .cell text {
+    font-weight: bold;
+    text-transform: capitalize;
+  }
+
+  .frame {
+    fill: none;
+    stroke: #aaa;
+  }
+
+  circle {
+    fill-opacity: 0.7;
+  }
+
+  circle.hidden {
+    fill: #ccc !important;
+  }
+
+  .extent {
+    fill: #000;
+    fill-opacity: 0.125;
+    stroke: #fff;
+  }
+
+  .axis-label {
+    font-size: 12px; /* Adjust font size as needed */
+    fill: black; /* Color of the axis labels */
+  }
+</style>
 
 <style>
   .header-area {
@@ -128,7 +183,8 @@
                 </div>
                 <h4>Level of education</h4>
                 <p>Opportunity costs associated with having children</p>
-                <h4 id="education-button" class="main-button scroll-to-section">Select</h4>
+                <h4 id="education-button" class="main-button scroll-to-section" onclick="education()">Select</h4>
+                <div id="my_dataviz"></div>
                 <p id="education-paragraph" class="hidden-paragraph">Higher education correlates with increased knowledge of 
                   and access to birth control methods, allowing for better control over fertility rates. 
                   Moreover, it often postpones marriage due to career pursuits, reducing the number of 
@@ -144,7 +200,8 @@
                 </div>
                 <h4>Commitment to Work</h4>
                 <p>Increased workload and stress from job responsibilities</p>
-                <h4 id="work-button" class="main-button scroll-to-section">Select</h4>
+                <h4 id="work-button" class="main-button scroll-to-section" onclick="laborForce()">Select</h4>
+                <div id="my_dataviz1"></div>
                 <p id="work-paragraph" class="hidden-paragraph">Additional paragraph for Commitment to work.</p>
                 <p id="ideal-work-paragraph" class="hidden-paragraph">Additional paragraph for Commitment to work for Ideal Fertility Rates.</p>
               </div>
@@ -156,7 +213,8 @@
                 </div>
                 <h4>Use of contraceptives</h4>
                 <p>Financial or personal reasons hinder access to contraception</p>
-                <h4 id="contraceptives-button" class="main-button scroll-to-section">Select</h4>
+                <h4 id="contraceptives-button" class="main-button scroll-to-section" onclick="contraceptive()">Select</h4>
+                <div id="my_dataviz2"></div>
                 <p id="ideal-contraceptives-paragraph" class="hidden-paragraph">Misconceptions in developing countries 
                   about contraceptives harming women's health lead to low usage, increasing unintended pregnancies and high fertility rates.</p>
                   <p id="contraceptives-paragraph" class="hidden-paragraph">Developed countries, where contraceptive education is widespread, 
@@ -170,7 +228,8 @@
                 </div>
                 <h4>Factors affecting my children's lifespan</h4>
                 <p>Concerns regarding the potential impacts of environmental or genetic factors on my children's lifespan</p>
-                <h4 id="lifespan-button" class="main-button scroll-to-section">Select</h4>
+                <h4 id="lifespan-button" class="main-button scroll-to-section" onclick="mortalityRate()">Select</h4>
+                <div id="my_dataviz3"></div>
                   <p id="lifespan-paragraph" class="hidden-paragraph">Reduced child mortality rates instill confidence in child survival, lessening the necessity for additional children to provide financial support. 
                     This reduces the need for having additional children solely for financial support, ultimately leading to lower fertility rates.</p>
                   <p id="ideal-lifespan-paragraph" class="hidden-paragraph">The Replacement Effect of Infant Mortality highlights how high infant mortality rates in some 
@@ -277,6 +336,424 @@
         }
     });
   });
+  </script>
+
+  <script>
+      function clearChart() {
+        d3.selectAll("svg").remove();
+      } 
+      
+      
+      function education() {
+    clearChart();
+    // Set up dimensions for the plot
+    var margin = { top: 30, right: 30, bottom: 50, left: 50 },
+      width = 500 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+
+    // Append the SVG object to the body of the page
+    var svg = d3
+      .select("#my_dataviz")
+      .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // Append graph title
+    svg
+      .append("text")
+      .attr("x", 200)
+      .attr("y", -20)
+      .attr("text-anchor", "middle")
+      .style("font-size", "12px")
+      .text(
+        "Relationships between Education Attainment in Women and Fertility Rate"
+      );
+
+    // Load data
+    d3.csv("FINALcombinedData1.csv", function (data) {
+      // Add X axis
+      var x = d3
+        .scaleLinear()
+        .domain([
+          0,
+          d3.max(data, function (d) {
+            return +d[
+              "Fertility rate - Sex: all - Age: all - Variant: estimates_x"
+            ];
+          }),
+        ])
+        .range([0, width]);
+      svg
+        .append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+
+      // X axis label
+      svg.append("text")
+          .attr("class", "axis-label")
+          .attr("text-anchor", "middle")
+          .attr("x", width / 2)
+          .attr("y", height + 28)
+          .text("Fertility Rate");
+
+      // Add Y axis
+      var y = d3
+        .scaleLinear()
+        .domain([
+          0,
+          d3.max(data, function (d) {
+            return +d[
+              "Combined - average years of education for 15-64 years female youth and adults"
+            ];
+          }),
+        ])
+        .range([height, 0]);
+      svg.append("g").call(d3.axisLeft(y));
+
+      // Y axis label
+      svg
+        .append("text")
+        .attr("text-anchor", "end")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -40)
+        .attr("x", -45)
+        .style("font-size", "12px")
+        .text(
+          "Average years of education for 15-64 years female youth and adults"
+        );
+
+      // Add dots
+      svg
+        .append("g")
+        .selectAll("dot")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("cx", function (d) {
+          return x(
+            d["Fertility rate - Sex: all - Age: all - Variant: estimates_x"]
+          );
+        })
+        .attr("cy", function (d) {
+          return y(
+            d[
+              "Combined - average years of education for 15-64 years female youth and adults"
+            ]
+          );
+        })
+        .attr("r", 5)
+        .style("fill", "#69b3a2");
+    });
+  }
+
+  function laborForce() {
+    clearChart();
+    // Set up dimensions for the plot
+    var margin = { top: 50, right: 30, bottom: 50, left: 50 },
+      width = 500 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+
+    // Append the SVG object to the body of the page
+    var svg = d3
+      .select("#my_dataviz1")
+      .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // Append graph title
+    svg
+      .append("text")
+      .attr("x", 180)
+      .attr("y", -20)
+      .attr("text-anchor", "middle")
+      .style("font-size", "12px")
+      .text(
+        "Relationships between Labor Force Participation Rate and Fertility Rate"
+      );
+
+    // Load data
+    d3.csv("FINALcombinedData1.csv", function (data) {
+      // Add X axis
+      var x = d3
+        .scaleLinear()
+        .domain([
+          0,
+          d3.max(data, function (d) {
+            return +d[
+              "Fertility rate - Sex: all - Age: all - Variant: estimates_x"
+            ];
+          }),
+        ])
+        .range([0, width]);
+      svg
+        .append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+
+      // X axis label
+      svg.append("text")
+          .attr("class", "axis-label")
+          .attr("text-anchor", "middle")
+          .attr("x", width / 2)
+          .attr("y", height + 28)
+          .text("Fertility Rate");
+
+      // Add Y axis
+      var y = d3
+        .scaleLinear()
+        .domain([
+          0,
+          d3.max(data, function (d) {
+            return +d[
+              "Labor force participation rate, female (% of female population ages 15+) (national estimate)"
+            ];
+          }),
+        ])
+        .range([height, 0]);
+      svg.append("g").call(d3.axisLeft(y));
+
+      // Y axis label
+      svg
+        .append("text")
+        .attr("text-anchor", "end")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -40)
+        .attr("x", -130)
+        .style("font-size", "12px")
+        .text("Labor Force Participation Rate");
+
+      // Add dots
+      svg
+        .append("g")
+        .selectAll("dot")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("cx", function (d) {
+          return x(
+            d["Fertility rate - Sex: all - Age: all - Variant: estimates_x"]
+          );
+        })
+        .attr("cy", function (d) {
+          return y(
+            d[
+              "Labor force participation rate, female (% of female population ages 15+) (national estimate)"
+            ]
+          );
+        })
+        .attr("r", 5)
+        .style("fill", "#69b3a2");
+    });
+  }
+
+  function contraceptive() {
+    clearChart();
+    // Set up dimensions for the plot
+    var margin = { top: 50, right: 30, bottom: 50, left: 50},
+      width = 500 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+
+    // Append the SVG object to the body of the page
+    var svg = d3
+      .select("#my_dataviz2")
+      .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // Append graph title
+    svg
+      .append("text")
+      .attr("x", 180)
+      .attr("y", -20)
+      .attr("text-anchor", "middle")
+      .style("font-size", "12px")
+      .text(
+        "Relationships between Contraceptive Prevalence and Fertility Rate"
+      );
+
+    // Load data
+    d3.csv("FINALcombinedData1.csv", function (data) {
+      // Add X axis
+      var x = d3
+        .scaleLinear()
+        .domain([
+          0,
+          d3.max(data, function (d) {
+            return +d[
+              "Fertility rate - Sex: all - Age: all - Variant: estimates_x"
+            ];
+          }),
+        ])
+        .range([0, width]);
+      svg
+        .append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+
+      // X axis label
+      svg
+        .append("text")
+        .style("font-size", "12px")
+        .attr("text-anchor", "middle")
+        .attr("x", width / 2)
+        .attr("y", height + 28)
+        .text("Fertility Rate");
+
+      // Add Y axis
+      var y = d3
+        .scaleLinear()
+        .domain([
+          0,
+          d3.max(data, function (d) {
+            return +d[
+              "Contraceptive prevalence, any modern method (% of married women ages 15-49)"
+            ];
+          }),
+        ])
+        .range([height, 0]);
+      svg.append("g").call(d3.axisLeft(y));
+
+      // Y axis label
+      svg
+        .append("text")
+        .attr("text-anchor", "end")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -40)
+        .attr("x", -130)
+        .style("font-size", "12px")
+        .text("Contraceptive prevalence");
+
+      // Add dots
+      svg
+        .append("g")
+        .selectAll("dot")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("cx", function (d) {
+          return x(
+            d["Fertility rate - Sex: all - Age: all - Variant: estimates_x"]
+          );
+        })
+        .attr("cy", function (d) {
+          return y(
+            d[
+              "Contraceptive prevalence, any modern method (% of married women ages 15-49)"
+            ]
+          );
+        })
+        .attr("r", 5)
+        .style("fill", "#69b3a2");
+    });
+  }
+
+  function mortalityRate() {
+    clearChart();
+    // Set up dimensions for the plot
+    var margin = { top: 50, right: 30, bottom: 50, left: 50},
+      width = 500 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+
+    // Append the SVG object to the body of the page
+    var svg = d3
+      .select("#my_dataviz3")
+      .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // Append graph title
+    svg
+      .append("text")
+      .attr("x", 180)
+      .attr("y", -20)
+      .attr("text-anchor", "middle")
+      .style("font-size", "12px")
+      .text(
+        "Relationships between Child Mortality Rate and Fertility Rate"
+      );
+
+    // Load data
+    d3.csv("FINALcombinedData1.csv", function (data) {
+      // Add X axis
+      var x = d3
+        .scaleLinear()
+        .domain([
+          0,
+          d3.max(data, function (d) {
+            return +d[
+              "Fertility rate - Sex: all - Age: all - Variant: estimates_x"
+            ];
+          }),
+        ])
+        .range([0, width]);
+      svg
+        .append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+
+      // X axis label
+      svg
+        .append("text")
+        .attr("text-anchor", "middle")
+        .attr("x", width / 2)
+        .attr("y", height + 28)
+        .style("font-size", "12px")
+        .text("Fertility Rate");
+
+      // Add Y axis
+      var y = d3
+        .scaleLinear()
+        .domain([
+          0,
+          d3.max(data, function (d) {
+            return +d[
+              "Child mortality rate - Sex: all - Age: 0-4 - Variant: estimates"
+            ];
+          }),
+        ])
+        .range([height, 0]);
+      svg.append("g").call(d3.axisLeft(y));
+
+      // Y axis label
+      svg
+        .append("text")
+        .attr("text-anchor", "end")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -40)
+        .attr("x", -130)
+        .style("font-size", "12px")
+        .text("Child Mortality Rate");
+
+      // Add dots
+      svg
+        .append("g")
+        .selectAll("dot")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("cx", function (d) {
+          return x(
+            d["Fertility rate - Sex: all - Age: all - Variant: estimates_x"]
+          );
+        })
+        .attr("cy", function (d) {
+          return y(
+            d["Child mortality rate - Sex: all - Age: 0-4 - Variant: estimates"]
+          );
+        })
+        .attr("r", 5)
+        .style("fill", "#69b3a2");
+    });
+  }
+
   </script>
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
