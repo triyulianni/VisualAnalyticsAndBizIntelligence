@@ -182,17 +182,18 @@
                 <div class="icon">
                   <img src="assets/images/services-01.jpg" alt="discover SEO" class="templatemo-feature">
                 </div>
-                <h4>Level of education</h4>
-                <p>Opportunity costs associated with having children</p>
+                <h4>Awareness of Childbearing Opportunity Costs</h4>
+                <p>Understanding the opportunity costs of having children</p>
                 <h4 id="education-button" class="main-button scroll-to-section"" onclick="clearChart()">Select</h4>
                 <br><h4 class="main-button scroll-to-section" onclick="education()">Show Scatterplot Chart</h4>
                 <div id="my_dataviz"></div>
-                <p id="education-paragraph" class="hidden-paragraph">Higher education correlates with increased knowledge of 
-                  and access to birth control methods, allowing for better control over fertility rates. 
+                <h10 id="education-paragraph" class="hidden-paragraph"><b>Your choice to opt for a low number of children (low fertility rate) aligns with the trend seen in people with higher levels of education.</b>
+                  This choice is closely associated with increased awareness and access to birth control methods, allowing for better control over fertility rates. 
                   Moreover, it often postpones marriage due to career pursuits, reducing the number of 
-                  childbearing years and consequently impacting fertility rates negatively</p>
-                <p id="ideal-education-paragraph" class="hidden-paragraph"> Lower levels of education often mean less awareness about and limited access to birth control methods,
-                  which can result in a more ideal fertility rates.</p>
+                  childbearing years and consequently impacting fertility rates negatively.</h10>
+                <h10 id="ideal-education-paragraph" class="hidden-paragraph"><b>Your choice to opt for a high number of children (high fertility rate) aligns with the trend seen in people with lower levels of education.1`</b>
+                  Lower levels of education often mean less awareness about and limited access to birth control methods,
+                  which can result in a more ideal fertility rates.</h10>
               </div>
             </div>
             <div class="col-lg-6 col-sm-6">
@@ -205,8 +206,11 @@
                 <h4 id="work-button" class="main-button scroll-to-section" onclick="clearChart()" >Select</h4>
                 <br><h4 class="main-button scroll-to-section" onclick="laborForce()">Show Scatterplot Chart</h4>
                 <div id="my_dataviz1"></div>
-                <p id="work-paragraph" class="hidden-paragraph">Additional paragraph for Commitment to work.</p>
-                <p id="ideal-work-paragraph" class="hidden-paragraph">Additional paragraph for Commitment to work for Ideal Fertility Rates.</p>
+                <h10 id="work-paragraph" class="hidden-paragraph">
+                  <b>Your choice to opt for a low number of children (a low fertility rate) aligns with the trend seen among individuals participating in the laborforce.</b> As women become more engaged in employment, they tend to prefer having fewer children due 
+                  to the increasing costs associated with balancing work and childcare responsibilities.</h10>
+                <h10 id="ideal-work-paragraph" class="hidden-paragraph"><b>Your choice to opt for a high number of children (high fertility rate) aligns with individuals who are not extensively engaged in the workforce.</b> As labor force participation decreases, 
+                  some may prioritize larger families, viewing them as central to their lifestyle and identity.</h10>
               </div>
             </div>
             <div class="col-lg-6 col-sm-6">
@@ -215,14 +219,13 @@
                   <img src="assets/images/services-03.jpg" alt="precise data" class="templatemo-feature">
                 </div>
                 <h4>Use of contraceptives</h4>
-                <p>Financial or personal reasons hinder access to contraception</p>
+                <p>Personal reasons hinder access to contraception</p>
                 <h4 id="contraceptives-button" class="main-button scroll-to-section" onclick="clearChart()">Select</h4>
                 <br><h4 class="main-button scroll-to-section" onclick="contraceptive()">Show Scatterplot Chart</h4>
                 <div id="my_dataviz2"></div>
-                <p id="ideal-contraceptives-paragraph" class="hidden-paragraph">Misconceptions in developing countries 
-                  about contraceptives harming women's health lead to low usage, increasing unintended pregnancies and high fertility rates.</p>
-                  <p id="contraceptives-paragraph" class="hidden-paragraph">Developed countries, where contraceptive education is widespread, 
-                    tend to have lower fertility rates due to higher contraceptive usage</p>
+                <h10 id="ideal-contraceptives-paragraph" class="hidden-paragraph"><b>Your choice to opt for a high number of children, (a high fertility rate) aligns with the trend seen in developed countries.</b> Misconceptions in developing countries about contraceptives harming women's health lead to low usage, increasing unintended pregnancies and high fertility rates.</h10>
+                  <h10 id="contraceptives-paragraph" class="hidden-paragraph"><b>Your choice to opt for a low number of children (a low fertility rate) aligns with the trend seen in developed countries.</b>
+                  They prioritize widespread contraceptive education, resulting in higher contraceptive usage and consequently lower fertility rates. </h10>
               </div>
             </div>
             <div class="col-lg-6 col-sm-6">
@@ -235,11 +238,10 @@
                 <h4 id="lifespan-button" class="main-button scroll-to-section" onclick="clearChart()">Select</h4>
                 <br><h4 class="main-button scroll-to-section" onclick="mortalityRate()">Show Scatterplot Chart</h4>
                 <div id="my_dataviz3"></div>
-                  <p id="lifespan-paragraph" class="hidden-paragraph">Reduced child mortality rates instill confidence in child survival, lessening the necessity for additional children to provide financial support. 
-                    This reduces the need for having additional children solely for financial support, ultimately leading to lower fertility rates.</p>
-                  <p id="ideal-lifespan-paragraph" class="hidden-paragraph">The Replacement Effect of Infant Mortality highlights how high infant mortality rates in some 
-                    nations drive a desire for larger families. In response, families often have more children to offset mortality, 
-                    ultimately leading to a higher and a more ideal fertility rates. </p>
+                  <h10 id="lifespan-paragraph" class="hidden-paragraph"><b>Your choice to opt for a low number of children (a low fertility rate) aligns with the trend observed in regions with low child mortality rates</b>. As child mortality rates decline, parents gain confidence in the survival of their children. 
+                    Consequently, there's less pressure to have additional children, resulting in lower fertility rates. </h10>
+                  <h10 id="ideal-lifespan-paragraph" class="hidden-paragraph"><b>Your decision to opt for a high number of children (high fertility rate) aligns with the Replacement Effect of Infant Mortality</b>, which highlights how high infant mortality rates in some nations drive a desire for larger families. 
+                    In response, families often have more children to offset mortality, ultimately leading to a higher and a more ideal fertility rates </h10>
               </div>
             </div>
           </div>
@@ -411,7 +413,9 @@
 
       d3.select("#my_dataviz")
       .append("p")
-      .text("There is a strong negative correlation of -0.78 between education level and women's fertility rate");
+      .style("font-size", "16px")
+      .style("color", "blueviolet")
+      .html("There is a <b>strong negative correlation of -0.78</b> between education level and women's fertility rate");
 
       // Add Y axis
       var y = d3
@@ -519,7 +523,9 @@
       
           d3.select("#my_dataviz1")
             .append("p")
-            .text("There is a weak negative correlation of -0.13 between labour force participation and women's fertility rate");
+            .style("font-size", "16px")
+            .style("color", "blueviolet")
+            .html("There is a <b>weak negative correlation of -0.13</b> between labour force participation and women's fertility rate");
 
       // Add Y axis
       var y = d3
@@ -627,7 +633,9 @@
 
       d3.select("#my_dataviz2")
         .append("p")
-        .text("There is a strong negative correlation of -0.72 between use of contraceptive and women's fertility rate");
+        .style("font-size", "16px")
+        .style("color", "blueviolet")
+        .html("There is a <b>strong negative correlation of -0.72</b> between use of contraceptive and women's fertility rate");
 
       // Add Y axis
       var y = d3
@@ -735,7 +743,9 @@
 
         d3.select("#my_dataviz3")
           .append("p")
-          .text("There is a strong positive correlation of 0.88 child mortality rate and women's fertility rate");
+          .style("font-size", "16px")
+          .style("color", "blueviolet")
+          .html("There is a <b>strong positive correlation of 0.88</b> child mortality rate and women's fertility rate");
 
       // Add Y axis
       var y = d3
