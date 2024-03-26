@@ -72,8 +72,9 @@ svg {
     font-size: 12px; /* Adjust font size as needed */
     fill: black; /* Color of the axis labels */
   }
-  </style>
 
+
+</style>
  
 </head>
 
@@ -495,22 +496,46 @@ function populationPyramid(year,country){
         <div class="tab-pane fade" id="task2" role="tabpanel" aria-labelledby="task2-tab"> 
         
           <div class = "container">
-            <h1>Fertility</h1>
+            <div class="col">
+              <h6 class="pb-2 text-center">Factors of Low or High Ferility Rates</h6>
+          </div>
             <!-- <div id="observablehq-chart-c0e013e6"></div>  -->
+            <div class = "container">
+              <table class="table">
+        
+                <tbody>
+                  
+                  <tr>
+                    <td class="text-center" colspan="2">
+                      <img id="image"
+                  src="assets/images/heatmap.png" />
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td class="text-center" colspan="2">
+                      <img id="imagep3"
+                  src="assets/images/parallelsets.png" />
+                    </td>
+                  </tr>     
+                </tbody>
+              </table>
+            </div>
+
             <div>
               <row>
-                <button onclick="scatterplotMatrix()">Task 2 P1</button>
-                <button onclick="correlationHeatmap()">Task 2 P2</button>
-                <button onclick="parallelSets()">Task 2 P3</button>
-                <button onclick="education()">Education Attainment</button>
-                <button onclick="mortalityRate()">Child Mortality Rate</button>
-                <button onclick="laborForce()">Labor Force Participation</button>
-                <button onclick="contraceptive()">Modern Contraceptive</button>
+                
+              
+              
+               <button type="button" class="btn btn-outline-secondary" onclick="education()">Education Attainment</button>
+               <button type="button" class="btn btn-outline-secondary" onclick="mortalityRate()">Child Mortality Rate</button>
+               <button type="button" class="btn btn-outline-secondary" onclick="laborForce()">Labor Force Participation</button>
+               <button type="button" class="btn btn-outline-secondary" onclick="contraceptive()">Modern Contraceptive</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="clearChart()">Collapse All</button>
               </row>
             </div>
             
-            <!-- Create a div where the graph will take place -->
-            <div id="my_dataviz"></div>
+
             
             <!-- <script type="module">
               import {
@@ -528,9 +553,13 @@ function populationPyramid(year,country){
             
             <script>
               function clearChart() {
+                d3.selectAll("img").remove();
                 d3.selectAll("svg").remove();
               }
             
+
+
+
               function scatterplotMatrix() {
                 clearChart();
                 // Define dimensions and margins
@@ -805,6 +834,7 @@ function populationPyramid(year,country){
                   width = 1200 - margin.left - margin.right,
                   height = 1200 - margin.top - margin.bottom;
             
+                  
                 // Append the SVG object to the body of the page
                 var svg = d3
                   .select("#my_dataviz")
