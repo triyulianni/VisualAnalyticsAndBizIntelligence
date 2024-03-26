@@ -531,7 +531,7 @@ function populationPyramid(year,country){
 
             <div>
               <div class="col justify-content-center">
-                <h6 class="pb-2 text-center">Consequences of Low or High Ferility Rates</h6>
+                <h6 class="pb-2 text-center">Scatterplots of Factors</h6>
               </div>
 
               <div style="text-align: center;">
@@ -543,7 +543,7 @@ function populationPyramid(year,country){
                 <button type="button" class="btn btn-outline-secondary" onclick="mortalityRate()">Child Mortality Rate</button>
                 <button type="button" class="btn btn-outline-secondary" onclick="laborForce()">Labor Force Participation</button>
                 <button type="button" class="btn btn-outline-secondary" onclick="contraceptive()">Modern Contraceptive</button>
-                  <button type="button" class="btn btn-outline-secondary" onclick="clearChart()">Collapse All</button>
+              
                 </row>
             </div>
             
@@ -587,7 +587,7 @@ function populationPyramid(year,country){
             
                 var yAxis = d3.axisLeft(y).ticks(5);
             
-                d3.csv("data/FINALcombinedData1.csv", function (error, data) {
+                d3.csv("data/ShortenedcombinedData1.csv", function (error, data) {
                   if (error) throw error;
             
                   var traits = d3.keys(data[0]).slice(2, -1); // Exclude the last column
@@ -673,7 +673,7 @@ function populationPyramid(year,country){
                         .text(function (d) {
                           return d.length > 60 ? d.substring(0, 60) + "..." : d;
                         })
-                        .style("font-size", "7px"); // Increase font size to 14 pixels
+                        .style("font-size", "12px"); // Increase font size to 14 pixels
                     });
             
                   svg
@@ -698,7 +698,7 @@ function populationPyramid(year,country){
                       d3.select(this)
                         .append("text")
                         .attr("class", "axis-label")
-                        .attr("x", 20) // Adjust the position of the label along the x-axis
+                        .attr("x", 130) // Adjust the position of the label along the x-axis
                         .attr("y", -75)
                         .attr("dx", "-26.5em")
                         .attr("dy", "1em") // Adjust the vertical alignment
@@ -710,8 +710,9 @@ function populationPyramid(year,country){
                         // .text(function (d) {
                         //   return d; // Display full text without truncation
                         // })
-                        .style("font-size", "8px"); // Increase font size to 14 pixels
+                        .style("font-size", "12px"); // Increase font size to 14 pixels
                     });
+                    
             
                   var cell = svg
                     .selectAll(".cell")
@@ -1209,7 +1210,7 @@ function populationPyramid(year,country){
                   .attr("text-anchor", "middle")
                   .style("font-size", "16px")
                   .text(
-                    "Scatterplot: Exploring Relationships between Education Attainment in Women and Fertility Rate"
+                    "Scatterplot: Relationships between Education Attainment in Women and Fertility Rate"
                   );
             
                 // Load data
@@ -1237,6 +1238,7 @@ function populationPyramid(year,country){
                     .attr("text-anchor", "middle")
                     .attr("x", 280)
                     .attr("y", 600)
+                    .style("font-size", "16px")
                     .text("Fertility Rate");
             
                   // Add Y axis
@@ -1259,9 +1261,10 @@ function populationPyramid(year,country){
                     .attr("text-anchor", "end")
                     .attr("transform", "rotate(-90)")
                     .attr("y", -40)
-                    .attr("x", -130)
+                    .attr("x", -100)
+                    .style("font-size", "16px")
                     .text(
-                      "Average years of education for 15-64 years female youth and adults"
+                      "Average years of education for 15-64 years females"
                     );
             
                   // Add dots
@@ -1312,7 +1315,7 @@ function populationPyramid(year,country){
                   .attr("text-anchor", "middle")
                   .style("font-size", "16px")
                   .text(
-                    "Scatterplot: Exploring Relationships between Child Mortality Rate and Fertility Rate"
+                    "Scatterplot: Relationships between Child Mortality Rate and Fertility Rate"
                   );
             
                 // Load data
@@ -1340,6 +1343,7 @@ function populationPyramid(year,country){
                     .attr("text-anchor", "middle")
                     .attr("x", 280)
                     .attr("y", 600)
+                    .style("font-size", "16px")
                     .text("Fertility Rate");
             
                   // Add Y axis
@@ -1361,8 +1365,9 @@ function populationPyramid(year,country){
                     .append("text")
                     .attr("text-anchor", "end")
                     .attr("transform", "rotate(-90)")
-                    .attr("y", -40)
-                    .attr("x", -130)
+                    .attr("y", -50)
+                    .attr("x", -200)
+                    .style("font-size", "16px")
                     .text("Child Mortality Rate");
             
                   // Add dots
@@ -1411,7 +1416,7 @@ function populationPyramid(year,country){
                   .attr("text-anchor", "middle")
                   .style("font-size", "16px")
                   .text(
-                    "Scatterplot: Exploring Relationships between Labor Force Participation Rate and Fertility Rate"
+                    "Scatterplot: Relationships between Labor Force Participation Rate and Fertility Rate"
                   );
             
                 // Load data
@@ -1439,6 +1444,7 @@ function populationPyramid(year,country){
                     .attr("text-anchor", "middle")
                     .attr("x", 280)
                     .attr("y", 600)
+                    .style("font-size", "16px")
                     .text("Fertility Rate");
             
                   // Add Y axis
@@ -1461,7 +1467,8 @@ function populationPyramid(year,country){
                     .attr("text-anchor", "end")
                     .attr("transform", "rotate(-90)")
                     .attr("y", -40)
-                    .attr("x", -130)
+                    .attr("x", -180)
+                    .style("font-size", "16px")
                     .text("Labor Force Participation Rate");
             
                   // Add dots
@@ -1512,7 +1519,7 @@ function populationPyramid(year,country){
                   .attr("text-anchor", "middle")
                   .style("font-size", "16px")
                   .text(
-                    "Scatterplot: Exploring Relationships between Contraceptive Prevalence and Fertility Rate"
+                    "Scatterplot: Relationships between Contraceptive Prevalence and Fertility Rate"
                   );
             
                 // Load data
@@ -1540,6 +1547,7 @@ function populationPyramid(year,country){
                     .attr("text-anchor", "middle")
                     .attr("x", 280)
                     .attr("y", 600)
+                    .style("font-size", "16px")
                     .text("Fertility Rate");
             
                   // Add Y axis
@@ -1562,8 +1570,10 @@ function populationPyramid(year,country){
                     .attr("text-anchor", "end")
                     .attr("transform", "rotate(-90)")
                     .attr("y", -40)
-                    .attr("x", -130)
+                    .attr("x", -180)
+                    .style("font-size", "16px")
                     .text("Contraceptive prevalence");
+
             
                   // Add dots
                   svg
