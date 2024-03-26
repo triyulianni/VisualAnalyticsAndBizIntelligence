@@ -26,6 +26,52 @@
   padding: 60px 0px;
   margin-top: 110px;
 }
+svg {
+    font: 10px sans-serif;
+    padding: 10px;
+  }
+
+  .axis,
+  .frame {
+    shape-rendering: crispEdges;
+  }
+
+  .axis line {
+    stroke: #ddd;
+  }
+
+  .axis path {
+    display: none;
+  }
+
+  .cell text {
+    font-weight: bold;
+    text-transform: capitalize;
+  }
+
+  .frame {
+    fill: none;
+    stroke: #aaa;
+  }
+
+  circle {
+    fill-opacity: 0.7;
+  }
+
+  circle.hidden {
+    fill: #ccc !important;
+  }
+
+  .extent {
+    fill: #000;
+    fill-opacity: 0.125;
+    stroke: #fff;
+  }
+
+  .axis-label {
+    font-size: 12px; /* Adjust font size as needed */
+    fill: black; /* Color of the axis labels */
+  }
   </style>
 
  
@@ -449,7 +495,1060 @@ function populationPyramid(year,country){
         <div class="tab-pane fade" id="task2" role="tabpanel" aria-labelledby="task2-tab"> 
         
           <div class = "container">
-            <p>Task 2</p>
+            <h1>Fertility</h1>
+            <!-- <div id="observablehq-chart-c0e013e6"></div>  -->
+            <div>
+              <row>
+                <button onclick="scatterplotMatrix()">Task 2 P1</button>
+                <button onclick="correlationHeatmap()">Task 2 P2</button>
+                <button onclick="parallelSets()">Task 2 P3</button>
+                <button onclick="education()">Education Attainment</button>
+                <button onclick="mortalityRate()">Child Mortality Rate</button>
+                <button onclick="laborForce()">Labor Force Participation</button>
+                <button onclick="contraceptive()">Modern Contraceptive</button>
+              </row>
+            </div>
+            
+            <!-- Create a div where the graph will take place -->
+            <div id="my_dataviz"></div>
+            
+            <!-- <script type="module">
+              import {
+                Runtime,
+                Inspector,
+              } from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
+              import define from "https://api.observablehq.com/d/a2eb0714a8e5d43c.js?v=4";
+              new Runtime().module(define, (name) => {
+                if (name === "chart")
+                  return new Inspector(
+                    document.querySelector("#observablehq-chart-c0e013e6")
+                  );
+              });
+            </script> -->
+            
+            <script>
+              function clearChart() {
+                d3.selectAll("svg").remove();
+              }
+            
+              function scatterplotMatrix() {
+                clearChart();
+                // Define dimensions and margins
+                var width = 950,
+                  size = 200,
+                  padding = 10;
+            
+                var x = d3.scaleLinear().range([padding / 2, size - padding / 2]);
+            
+                var y = d3.scaleLinear().range([size - padding / 2, padding / 2]);
+            
+                var xAxis = d3.axisBottom(x).ticks(5);
+            
+                var yAxis = d3.axisLeft(y).ticks(5);
+            
+                d3.csv("data/FINALcombinedData1.csv", function (error, data) {
+                  if (error) throw error;
+            
+                  var traits = d3.keys(data[0]).slice(2, -1); // Exclude the last column
+            
+                  var color = d3
+                    .scaleOrdinal()
+                    .domain(["Low", "High"]) // Assuming the labels are "Low" and "High"
+                    .range(["blue", "red"]);
+            
+                  xAxis.tickSize(size * traits.length);
+                  yAxis.tickSize(-size * traits.length);
+            
+                  var brush = d3
+                    .brush()
+                    .extent([
+                      [0, 0],
+                      [size, size],
+                    ])
+                    .on("start", brushstart)
+                    .on("brush", brushmove)
+                    .on("end", brushend);
+            
+                  // var marginLeft = 100; // Adjust the desired left margin value
+            
+                  // var svg = d3
+                  //   .select("body")
+                  //   .append("svg")
+                  //   .attr("width", size * traits.length + 80) // Include the left margin in the SVG width
+                  //   .attr("height", size * traits.length + 90)
+                  //   .append("g")
+                  //   .attr("transform", "translate(" + 80 + "," + 80 / 2 + ")"); // Translate the SVG by the left margin amount
+            
+                  var margin = { top: 80, right: 50, bottom: 50, left: 80 };
+                  var svgWidth = size * traits.length + margin.left + margin.right;
+                  var svgHeight = size * traits.length + margin.top + margin.bottom;
+            
+                  var svg = d3
+                    .select("body")
+                    .append("svg")
+                    .attr("width", svgWidth)
+                    .attr("height", svgHeight)
+                    .append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            
+                  // Append graph title
+                  svg
+                    .append("text")
+                    .attr("x", (svgWidth - margin.left - margin.right) / 2)
+                    .attr("y", -margin.top / 2)
+                    .attr("text-anchor", "middle")
+                    .style("font-size", "16px")
+                    .text("Scatterplot Matrix: Exploring Relationships between Variables");
+            
+                  svg
+                    .selectAll(".x.axis")
+                    .data(traits)
+                    .enter()
+                    .append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", function (d, i) {
+                      return "translate(" + i * size + ",0)";
+                    })
+                    .each(function (d) {
+                      x.domain(
+                        d3.extent(data, function (p) {
+                          return p[d];
+                        })
+                      );
+                      d3.select(this).call(xAxis);
+            
+                      // Append truncated text label for attribute names
+                      // Append text label for attribute names
+                      d3.select(this)
+                        .append("text")
+            
+                        .attr("class", "axis-label")
+                        .attr("x", 7) // Adjust the position of the label along the x-axis
+                        .attr("y", -20) // Adjust the position of the label along the y-axis
+                        .style("text-anchor", "start")
+                        // .text(function (d) {
+                        //   return d; // Display full text without truncation
+                        // })
+                        .text(function (d) {
+                          return d.length > 60 ? d.substring(0, 60) + "..." : d;
+                        })
+                        .style("font-size", "7px"); // Increase font size to 14 pixels
+                    });
+            
+                  svg
+                    .selectAll(".y.axis")
+                    .data(traits)
+                    .enter()
+                    .append("g")
+                    .attr("class", "y axis")
+                    .attr("transform", function (d, i) {
+                      return "translate(0," + i * size + ")";
+                    })
+                    .each(function (d) {
+                      y.domain(
+                        d3.extent(data, function (p) {
+                          return p[d];
+                        })
+                      );
+                      d3.select(this).call(yAxis);
+            
+                      // Append text label for attribute names
+                      // Append truncated text label for attribute names
+                      d3.select(this)
+                        .append("text")
+                        .attr("class", "axis-label")
+                        .attr("x", 20) // Adjust the position of the label along the x-axis
+                        .attr("y", -75)
+                        .attr("dx", "-26.5em")
+                        .attr("dy", "1em") // Adjust the vertical alignment
+                        .style("text-anchor", "start")
+                        .attr("transform", "rotate(-90)") // Rotate the label by -45 degrees
+                        .text(function (d) {
+                          return d.length > 50 ? d.substring(0, 50) + "..." : d;
+                        })
+                        // .text(function (d) {
+                        //   return d; // Display full text without truncation
+                        // })
+                        .style("font-size", "8px"); // Increase font size to 14 pixels
+                    });
+            
+                  var cell = svg
+                    .selectAll(".cell")
+                    .data(cross(traits, traits))
+                    .enter()
+                    .append("g")
+                    .attr("class", "cell")
+                    .attr("transform", function (d) {
+                      return (
+                        "translate(" +
+                        (traits.length - d.i - 1) * size +
+                        "," +
+                        d.j * size +
+                        ")"
+                      );
+                    })
+                    .each(plot);
+            
+                  cell.call(brush);
+            
+                  function plot(p) {
+                    var cell = d3.select(this);
+            
+                    // Define x and y scales based on the range of data in this cell
+                    var xScale = d3
+                      .scaleLinear()
+                      .domain(
+                        d3.extent(data, function (d) {
+                          return d[p.x];
+                        })
+                      )
+                      .range([padding, size - padding]);
+            
+                    var yScale = d3
+                      .scaleLinear()
+                      .domain(
+                        d3.extent(data, function (d) {
+                          return d[p.y];
+                        })
+                      )
+                      .range([size - padding, padding]);
+            
+                    cell
+                      .append("rect")
+                      .attr("class", "frame")
+                      .attr("x", padding / 2)
+                      .attr("y", padding / 2)
+                      .attr("width", size - padding)
+                      .attr("height", size - padding);
+            
+                    cell
+                      .selectAll("circle")
+                      .data(data)
+                      .enter()
+                      .append("circle")
+                      .attr("cx", function (d) {
+                        return xScale(d[p.x]);
+                      })
+                      .attr("cy", function (d) {
+                        return yScale(d[p.y]);
+                      })
+                      .attr("r", 4)
+                      .style("stroke", "#7abdff")
+                      .style("stroke-width", 1)
+                      .style("fill", function (d) {
+                        // Check the value of the last column and assign colors accordingly
+                        if (d[data.columns[data.columns.length - 1]] === "Low") {
+                          return "blue";
+                        } else if (d[data.columns[data.columns.length - 1]] === "High") {
+                          return "red";
+                        }
+                      });
+                  }
+            
+                  var brushCell;
+            
+                  // Clear the previously-active brush, if any.
+                  function brushstart(p) {
+                    if (brushCell !== this) {
+                      d3.select(brushCell).call(brush.move, null);
+                      x.domain(
+                        d3.extent(data, function (d) {
+                          return d[p.x];
+                        })
+                      );
+                      y.domain(
+                        d3.extent(data, function (d) {
+                          return d[p.y];
+                        })
+                      );
+                      brushCell = this;
+                    }
+                  }
+            
+                  // Highlight the selected circles.
+                  function brushmove(p) {
+                    var e = d3.brushSelection(this);
+                    svg.selectAll("circle").classed("hidden", function (d) {
+                      return (
+                        !e ||
+                        e[0][0] > x(d[p.x]) ||
+                        x(d[p.x]) > e[1][0] ||
+                        e[0][1] > y(d[p.y]) ||
+                        y(d[p.y]) > e[1][1]
+                      );
+                    });
+                  }
+            
+                  // If the brush is empty, select all circles.
+                  function brushend() {
+                    if (!d3.brushSelection(this))
+                      svg.selectAll(".hidden").classed("hidden", false);
+                  }
+                });
+            
+                function cross(a, b) {
+                  var c = [],
+                    n = a.length,
+                    m = b.length,
+                    i,
+                    j;
+                  for (i = -1; ++i < n; )
+                    for (j = -1; ++j < m; ) c.push({ x: a[i], i: i, y: b[j], j: j });
+                  return c;
+                }
+              }
+            
+              function correlationHeatmap() {
+                clearChart();
+                // Set the dimensions and margins of the graph
+                var margin = { top: 200, right: 50, bottom: 300, left: 420 },
+                  width = 1200 - margin.left - margin.right,
+                  height = 1200 - margin.top - margin.bottom;
+            
+                // Append the SVG object to the body of the page
+                var svg = d3
+                  .select("#my_dataviz")
+                  .append("svg")
+                  .attr("width", width + margin.left + margin.right)
+                  .attr("height", height + margin.top + margin.bottom)
+                  .append("g")
+                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            
+                // Add title
+                svg
+                  .append("text")
+                  .attr("x", width / 2)
+                  .attr("y", -150)
+                  .attr("text-anchor", "middle")
+                  .style("font-size", "24px")
+                  .text("Correlation Heatmap"); // Adjust the title text as needed
+            
+                // Add additional information text
+                svg
+                  .append("text")
+                  .attr("x", width / 2)
+                  .attr("y", -120)
+                  .attr("text-anchor", "middle")
+                  .style("font-size", "12px")
+                  .text(
+                    "Explore how various factors correlate with fertility rates. Hover over each cell to see correlation values. Correlation is at the bottom left of the graph."
+                  );
+            
+                // Labels of rows and columns
+                var myVars = [
+                  "Labor force participation rate, female (% of female population ages 15+) (national estimate)",
+                  "Fertility rate - Sex: all - Age: all - Variant: estimates_x",
+                  "Child mortality rate - Sex: all - Age: 0-4 - Variant: estimates",
+                  "Combined - average years of education for 15-64 years female youth and adults",
+                  "Contraceptive prevalence, any modern method (% of married women ages 15-49)",
+                ];
+            
+                // Build scales and axes
+                var x = d3.scaleBand().range([0, width]).domain(myVars).padding(0.05);
+                svg
+                  .append("g")
+                  .attr("transform", "translate(0," + height + ")")
+                  .call(d3.axisBottom(x).tickSize(0))
+                  .selectAll("text")
+                  .attr("transform", "translate(-10,0)rotate(-45)")
+                  .style("text-anchor", "end");
+            
+                var y = d3.scaleBand().range([height, 0]).domain(myVars).padding(0.05);
+                svg.append("g").call(d3.axisLeft(y).tickSize(0));
+            
+                // Read the data
+                d3.csv("data/FINALcombinedData1.csv", function (data) {
+                  // Compute the correlation matrix
+                  var corrMatrix = computeCorrelationMatrix(data);
+            
+                  // Define the color scale
+                  var colorScale = d3
+                    .scaleLinear()
+                    .range(["white", "#69b3a2"])
+                    .domain([-1, 1]);
+            
+                  // Draw the heatmap
+                  svg
+                    .selectAll(".heatmap-rect")
+                    .data(corrMatrix)
+                    .enter()
+                    .append("g")
+                    .selectAll(".heatmap-cell")
+                    .data(function (d, i) {
+                      return d.map((value, j) => ({ value, i, j }));
+                    })
+                    .enter()
+                    .append("rect")
+                    .attr("class", "heatmap-cell")
+                    .attr("x", function (d) {
+                      return x(myVars[d.j]);
+                    })
+                    .attr("y", function (d) {
+                      return y(myVars[d.i]);
+                    })
+                    .attr("width", x.bandwidth())
+                    .attr("height", y.bandwidth())
+                    .style("fill", function (d) {
+                      return colorScale(d.value);
+                    })
+                    .on("mouseover", function (d) {
+                      tooltip
+                        .style("opacity", 1)
+                        .style("left", d3.event.pageX + "px")
+                        .style("top", d3.event.pageY + "px");
+                      tooltip.html("Correlation: " + d.value.toFixed(2));
+                    })
+                    .on("mousemove", function (d) {
+                      tooltip
+                        .style("left", d3.event.pageX + "px")
+                        .style("top", d3.event.pageY + "px");
+                    })
+                    .on("mouseout", function (d) {
+                      tooltip.style("opacity", 0);
+                    });
+            
+                  // Define legend scale
+                  var legendScale = d3
+                    .scaleLinear()
+                    .domain([0, 1]) // Adjust according to your correlation range
+                    .range([0, width]); // Adjust the range to fit within the width of the SVG
+            
+                  // Create legend axis
+                  var legendAxis = d3.axisBottom(legendScale).tickSize(20);
+            
+                  // Append legend
+                  var legend = svg
+                    .append("g")
+                    .attr("class", "legend")
+                    .attr("transform", "translate(0, -60)"); // Adjust the position as needed
+            
+                  // Draw legend axis
+                  legend.call(legendAxis);
+            
+                  // Add legend title
+                  var minCorrelation = d3.min(corrMatrix.flat());
+                  var maxCorrelation = d3.max(corrMatrix.flat());
+                  legend
+                    .append("text")
+                    .attr("class", "legend-title")
+                    .attr("x", width / 2)
+                    .attr("y", -10)
+                    .attr("text-anchor", "middle")
+                    .text(
+                      "Correlation Range: " +
+                        minCorrelation.toFixed(2) +
+                        " to " +
+                        maxCorrelation.toFixed(2)
+                    );
+            
+                  // Create a gradient for the legend
+                  var legendGradient = svg
+                    .append("defs")
+                    .append("linearGradient")
+                    .attr("id", "legendGradient")
+                    .attr("x1", "0%")
+                    .attr("y1", "0%")
+                    .attr("x2", "100%")
+                    .attr("y2", "0%");
+            
+                  // Add gradient stops
+                  legendGradient
+                    .selectAll("stop")
+                    .data([
+                      { offset: "0%", color: "white" },
+                      { offset: "100%", color: "#69b3a2" },
+                    ])
+                    .enter()
+                    .append("stop")
+                    .attr("offset", function (d) {
+                      return d.offset;
+                    })
+                    .attr("stop-color", function (d) {
+                      return d.color;
+                    });
+            
+                  // Add legend color gradient
+                  legend
+                    .append("rect")
+                    .attr("x", 0)
+                    .attr("y", -50) // Adjust the y position as needed
+                    .attr("width", width) // Use the width of the SVG
+                    .attr("height", 20) // Adjust the height as needed
+                    .style("fill", "url(#legendGradient)");
+                });
+            
+                // Function to compute the correlation matrix
+                function computeCorrelationMatrix(data) {
+                  var corrMatrix = [];
+                  for (var i = 0; i < myVars.length; i++) {
+                    corrMatrix[i] = [];
+                    for (var j = 0; j < myVars.length; j++) {
+                      corrMatrix[i][j] = computeCorrelation(data, myVars[i], myVars[j]);
+                    }
+                  }
+                  return corrMatrix;
+                }
+            
+                // Function to compute the correlation coefficient between two variables
+                function computeCorrelation(data, var1, var2) {
+                  var x = data.map(function (d) {
+                    return +d[var1];
+                  });
+                  var y = data.map(function (d) {
+                    return +d[var2];
+                  });
+                  var xMean = d3.mean(x);
+                  var yMean = d3.mean(y);
+                  var numerator = d3.sum(
+                    x.map(function (d, i) {
+                      return (d - xMean) * (y[i] - yMean);
+                    })
+                  );
+                  var denominator = Math.sqrt(
+                    d3.sum(
+                      x.map(function (d) {
+                        return Math.pow(d - xMean, 2);
+                      })
+                    ) *
+                      d3.sum(
+                        y.map(function (d) {
+                          return Math.pow(d - yMean, 2);
+                        })
+                      )
+                  );
+                  return numerator / denominator;
+                }
+            
+                // Tooltip
+                var tooltip = d3
+                  .select("body")
+                  .append("div")
+                  .attr("class", "tooltip")
+                  .style("opacity", 0);
+              }
+            
+              function parallelSets() {
+                clearChart();
+                // set the dimensions and margins of the graph
+                var margin = { top: 200, right: 100, bottom: 10, left: 50 },
+                  width = 1300 - margin.left - margin.right,
+                  height = 600 - margin.top - margin.bottom;
+            
+                // append the svg object to the body of the page
+                var svg = d3
+                  .select("#my_dataviz")
+                  .append("svg")
+                  .attr("width", width + margin.left + margin.right)
+                  .attr("height", height + margin.top + margin.bottom)
+                  .append("g")
+                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            
+                // Add title
+                svg
+                  .append("text")
+                  .attr("x", width / 2)
+                  .attr("y", -100)
+                  .attr("text-anchor", "middle")
+                  .style("font-size", "24px")
+                  .text("Analysis of Factors for Fertility Rate"); // Adjust the title text as needed
+            
+                // Parse the Data
+                d3.csv("data/FINALcombinedData1.csv", function (data) {
+                  // Here I set the list of dimension manually to control the order of axis:
+                  dimensions = [
+                    "Labor force participation rate, female (% of female population ages 15+) (national estimate)",
+                    "Child mortality rate - Sex: all - Age: 0-4 - Variant: estimates",
+                    "Combined - average years of education for 15-64 years female youth and adults",
+                    "Contraceptive prevalence, any modern method (% of married women ages 15-49)",
+                    "Fertility rate - Sex: all - Age: all - Variant: estimates_x",
+                  ];
+            
+                  // Calculate the maximum and minimum values for each dimension
+                  var minMaxValues = {};
+                  dimensions.forEach(function (d) {
+                    minMaxValues[d] = d3.extent(data, function (row) {
+                      return +row[d];
+                    });
+                  });
+            
+                  // For each dimension, I build a linear scale. I store all in a y object
+                  var y = {};
+                  for (i in dimensions) {
+                    name = dimensions[i];
+                    y[name] = d3
+                      .scaleLinear()
+                      .domain(minMaxValues[name]) // Extend the domain to cover the entire range of data values
+                      .range([height, 0]);
+                  }
+            
+                  // Build the X scale -> it finds the best position for each Y axis
+                  x = d3.scalePoint().range([0, width]).domain(dimensions);
+            
+                  // The path function takes a row of the csv as input, and return x and y coordinates of the line to draw for this row.
+                  function path(d) {
+                    return d3.line()(
+                      dimensions.map(function (p) {
+                        return [x(p), y[p](d[p])];
+                      })
+                    );
+                  }
+            
+                  // Draw the lines
+                  svg
+                    .selectAll("myPath")
+                    .data(data)
+                    .enter()
+                    .append("path")
+                    .attr("class", "line") // 2 class for each line: 'line' and the group name
+                    .attr("d", path)
+                    .style("fill", "none")
+                    .style("stroke", function (d) {
+                      // Color based on the value of 'Level of Fertility'
+                      if (d["Level of Fertility"] === "Low") {
+                        return "blue";
+                      } else if (d["Level of Fertility"] === "High") {
+                        return "red";
+                      } else {
+                        return "steelblue"; // Default color if neither 'Low' nor 'High'
+                      }
+                    })
+                    .style("opacity", 0.5);
+            
+                  // Draw the axis:
+                  svg
+                    .selectAll("myAxis")
+                    // For each dimension of the dataset I add a 'g' element:
+                    .data(dimensions)
+                    .enter()
+                    .append("g")
+                    .attr("class", "axis")
+                    // I translate this element to its right position on the x axis
+                    .attr("transform", function (d) {
+                      return "translate(" + x(d) + ",0)";
+                    })
+                    // And I build the axis with the call function
+                    .each(function (d) {
+                      d3.select(this).call(d3.axisLeft().ticks(5).scale(y[d]));
+                    })
+                    // Add axis title
+                    .append("text")
+                    .style("text-anchor", "start")
+                    .attr("y", -9)
+                    // .attr("transform", "rotate(-45)")
+                    .text(function (d) {
+                      // Shorten the dimension label to the first 30 characters
+                      return d.length > 30 ? d.substring(0, 30) + "..." : d;
+                    })
+                    .style("fill", "black");
+                });
+              }
+            
+              function education() {
+                clearChart();
+                // Set up dimensions for the plot
+                var margin = { top: 50, right: 30, bottom: 100, left: 100 },
+                  width = 700 - margin.left - margin.right,
+                  height = 700 - margin.top - margin.bottom;
+            
+                // Append the SVG object to the body of the page
+                var svg = d3
+                  .select("body")
+                  .append("svg")
+                  .attr("width", width + margin.left + margin.right)
+                  .attr("height", height + margin.top + margin.bottom)
+                  .append("g")
+                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            
+                // Append graph title
+                svg
+                  .append("text")
+                  .attr("x", 250)
+                  .attr("y", -20)
+                  .attr("text-anchor", "middle")
+                  .style("font-size", "16px")
+                  .text(
+                    "Scatterplot: Exploring Relationships between Education Attainment in Women and Fertility Rate"
+                  );
+            
+                // Load data
+                d3.csv("data/FINALcombinedData1.csv", function (data) {
+                  // Add X axis
+                  var x = d3
+                    .scaleLinear()
+                    .domain([
+                      0,
+                      d3.max(data, function (d) {
+                        return +d[
+                          "Fertility rate - Sex: all - Age: all - Variant: estimates_x"
+                        ];
+                      }),
+                    ])
+                    .range([0, width]);
+                  svg
+                    .append("g")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(x));
+            
+                  // X axis label
+                  svg
+                    .append("text")
+                    .attr("text-anchor", "middle")
+                    .attr("x", 280)
+                    .attr("y", 600)
+                    .text("Fertility Rate");
+            
+                  // Add Y axis
+                  var y = d3
+                    .scaleLinear()
+                    .domain([
+                      0,
+                      d3.max(data, function (d) {
+                        return +d[
+                          "Combined - average years of education for 15-64 years female youth and adults"
+                        ];
+                      }),
+                    ])
+                    .range([height, 0]);
+                  svg.append("g").call(d3.axisLeft(y));
+            
+                  // Y axis label
+                  svg
+                    .append("text")
+                    .attr("text-anchor", "end")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", -40)
+                    .attr("x", -130)
+                    .text(
+                      "Average years of education for 15-64 years female youth and adults"
+                    );
+            
+                  // Add dots
+                  svg
+                    .append("g")
+                    .selectAll("dot")
+                    .data(data)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", function (d) {
+                      return x(
+                        d["Fertility rate - Sex: all - Age: all - Variant: estimates_x"]
+                      );
+                    })
+                    .attr("cy", function (d) {
+                      return y(
+                        d[
+                          "Combined - average years of education for 15-64 years female youth and adults"
+                        ]
+                      );
+                    })
+                    .attr("r", 5)
+                    .style("fill", "#69b3a2");
+                });
+              }
+            
+              function mortalityRate() {
+                clearChart();
+                // Set up dimensions for the plot
+                var margin = { top: 50, right: 30, bottom: 100, left: 100 },
+                  width = 700 - margin.left - margin.right,
+                  height = 700 - margin.top - margin.bottom;
+            
+                // Append the SVG object to the body of the page
+                var svg = d3
+                  .select("body")
+                  .append("svg")
+                  .attr("width", width + margin.left + margin.right)
+                  .attr("height", height + margin.top + margin.bottom)
+                  .append("g")
+                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            
+                // Append graph title
+                svg
+                  .append("text")
+                  .attr("x", 250)
+                  .attr("y", -20)
+                  .attr("text-anchor", "middle")
+                  .style("font-size", "16px")
+                  .text(
+                    "Scatterplot: Exploring Relationships between Child Mortality Rate and Fertility Rate"
+                  );
+            
+                // Load data
+                d3.csv("data/FINALcombinedData1.csv", function (data) {
+                  // Add X axis
+                  var x = d3
+                    .scaleLinear()
+                    .domain([
+                      0,
+                      d3.max(data, function (d) {
+                        return +d[
+                          "Fertility rate - Sex: all - Age: all - Variant: estimates_x"
+                        ];
+                      }),
+                    ])
+                    .range([0, width]);
+                  svg
+                    .append("g")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(x));
+            
+                  // X axis label
+                  svg
+                    .append("text")
+                    .attr("text-anchor", "middle")
+                    .attr("x", 280)
+                    .attr("y", 600)
+                    .text("Fertility Rate");
+            
+                  // Add Y axis
+                  var y = d3
+                    .scaleLinear()
+                    .domain([
+                      0,
+                      d3.max(data, function (d) {
+                        return +d[
+                          "Child mortality rate - Sex: all - Age: 0-4 - Variant: estimates"
+                        ];
+                      }),
+                    ])
+                    .range([height, 0]);
+                  svg.append("g").call(d3.axisLeft(y));
+            
+                  // Y axis label
+                  svg
+                    .append("text")
+                    .attr("text-anchor", "end")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", -40)
+                    .attr("x", -130)
+                    .text("Child Mortality Rate");
+            
+                  // Add dots
+                  svg
+                    .append("g")
+                    .selectAll("dot")
+                    .data(data)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", function (d) {
+                      return x(
+                        d["Fertility rate - Sex: all - Age: all - Variant: estimates_x"]
+                      );
+                    })
+                    .attr("cy", function (d) {
+                      return y(
+                        d["Child mortality rate - Sex: all - Age: 0-4 - Variant: estimates"]
+                      );
+                    })
+                    .attr("r", 5)
+                    .style("fill", "#69b3a2");
+                });
+              }
+            
+              function laborForce() {
+                clearChart();
+                // Set up dimensions for the plot
+                var margin = { top: 50, right: 30, bottom: 100, left: 100 },
+                  width = 700 - margin.left - margin.right,
+                  height = 700 - margin.top - margin.bottom;
+            
+                // Append the SVG object to the body of the page
+                var svg = d3
+                  .select("body")
+                  .append("svg")
+                  .attr("width", width + margin.left + margin.right)
+                  .attr("height", height + margin.top + margin.bottom)
+                  .append("g")
+                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            
+                // Append graph title
+                svg
+                  .append("text")
+                  .attr("x", 250)
+                  .attr("y", -20)
+                  .attr("text-anchor", "middle")
+                  .style("font-size", "16px")
+                  .text(
+                    "Scatterplot: Exploring Relationships between Labor Force Participation Rate and Fertility Rate"
+                  );
+            
+                // Load data
+                d3.csv("data/FINALcombinedData1.csv", function (data) {
+                  // Add X axis
+                  var x = d3
+                    .scaleLinear()
+                    .domain([
+                      0,
+                      d3.max(data, function (d) {
+                        return +d[
+                          "Fertility rate - Sex: all - Age: all - Variant: estimates_x"
+                        ];
+                      }),
+                    ])
+                    .range([0, width]);
+                  svg
+                    .append("g")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(x));
+            
+                  // X axis label
+                  svg
+                    .append("text")
+                    .attr("text-anchor", "middle")
+                    .attr("x", 280)
+                    .attr("y", 600)
+                    .text("Fertility Rate");
+            
+                  // Add Y axis
+                  var y = d3
+                    .scaleLinear()
+                    .domain([
+                      0,
+                      d3.max(data, function (d) {
+                        return +d[
+                          "Labor force participation rate, female (% of female population ages 15+) (national estimate)"
+                        ];
+                      }),
+                    ])
+                    .range([height, 0]);
+                  svg.append("g").call(d3.axisLeft(y));
+            
+                  // Y axis label
+                  svg
+                    .append("text")
+                    .attr("text-anchor", "end")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", -40)
+                    .attr("x", -130)
+                    .text("Labor Force Participation Rate");
+            
+                  // Add dots
+                  svg
+                    .append("g")
+                    .selectAll("dot")
+                    .data(data)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", function (d) {
+                      return x(
+                        d["Fertility rate - Sex: all - Age: all - Variant: estimates_x"]
+                      );
+                    })
+                    .attr("cy", function (d) {
+                      return y(
+                        d[
+                          "Labor force participation rate, female (% of female population ages 15+) (national estimate)"
+                        ]
+                      );
+                    })
+                    .attr("r", 5)
+                    .style("fill", "#69b3a2");
+                });
+              }
+            
+              function contraceptive() {
+                clearChart();
+                // Set up dimensions for the plot
+                var margin = { top: 50, right: 30, bottom: 100, left: 100 },
+                  width = 700 - margin.left - margin.right,
+                  height = 700 - margin.top - margin.bottom;
+            
+                // Append the SVG object to the body of the page
+                var svg = d3
+                  .select("body")
+                  .append("svg")
+                  .attr("width", width + margin.left + margin.right)
+                  .attr("height", height + margin.top + margin.bottom)
+                  .append("g")
+                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            
+                // Append graph title
+                svg
+                  .append("text")
+                  .attr("x", 250)
+                  .attr("y", -20)
+                  .attr("text-anchor", "middle")
+                  .style("font-size", "16px")
+                  .text(
+                    "Scatterplot: Exploring Relationships between Contraceptive Prevalence and Fertility Rate"
+                  );
+            
+                // Load data
+                d3.csv("data/FINALcombinedData1.csv", function (data) {
+                  // Add X axis
+                  var x = d3
+                    .scaleLinear()
+                    .domain([
+                      0,
+                      d3.max(data, function (d) {
+                        return +d[
+                          "Fertility rate - Sex: all - Age: all - Variant: estimates_x"
+                        ];
+                      }),
+                    ])
+                    .range([0, width]);
+                  svg
+                    .append("g")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(x));
+            
+                  // X axis label
+                  svg
+                    .append("text")
+                    .attr("text-anchor", "middle")
+                    .attr("x", 280)
+                    .attr("y", 600)
+                    .text("Fertility Rate");
+            
+                  // Add Y axis
+                  var y = d3
+                    .scaleLinear()
+                    .domain([
+                      0,
+                      d3.max(data, function (d) {
+                        return +d[
+                          "Contraceptive prevalence, any modern method (% of married women ages 15-49)"
+                        ];
+                      }),
+                    ])
+                    .range([height, 0]);
+                  svg.append("g").call(d3.axisLeft(y));
+            
+                  // Y axis label
+                  svg
+                    .append("text")
+                    .attr("text-anchor", "end")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", -40)
+                    .attr("x", -130)
+                    .text("Contraceptive prevalence");
+            
+                  // Add dots
+                  svg
+                    .append("g")
+                    .selectAll("dot")
+                    .data(data)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", function (d) {
+                      return x(
+                        d["Fertility rate - Sex: all - Age: all - Variant: estimates_x"]
+                      );
+                    })
+                    .attr("cy", function (d) {
+                      return y(
+                        d[
+                          "Contraceptive prevalence, any modern method (% of married women ages 15-49)"
+                        ]
+                      );
+                    })
+                    .attr("r", 5)
+                    .style("fill", "#69b3a2");
+                });
+              }
+            </script>
+            
+
           </div> 
         </div>
         <div class="tab-pane fade" id="task3" role="tabpanel" aria-labelledby="task3-tab">
