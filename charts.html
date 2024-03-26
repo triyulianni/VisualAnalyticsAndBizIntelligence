@@ -504,6 +504,12 @@ function populationPyramid(year,country){
               <table class="table">
         
                 <tbody>
+
+                  <tr>
+                    <td class="text-center" colspan="2">
+                      <script>scatterplotMatrix()</script>
+                    </td>
+                  </tr> 
                   
                   <tr>
                     <td class="text-center" colspan="2">
@@ -517,7 +523,8 @@ function populationPyramid(year,country){
                       <img id="imagep3"
                   src="assets/images/parallelsets.png" />
                     </td>
-                  </tr>     
+                  </tr> 
+                      
                 </tbody>
               </table>
             </div>
@@ -526,7 +533,7 @@ function populationPyramid(year,country){
               <row>
                 
               
-              
+                <button type="button" class="btn btn-outline-secondary" onclick="scatterplotMatrix()">Scatterplot</button>
                <button type="button" class="btn btn-outline-secondary" onclick="education()">Education Attainment</button>
                <button type="button" class="btn btn-outline-secondary" onclick="mortalityRate()">Child Mortality Rate</button>
                <button type="button" class="btn btn-outline-secondary" onclick="laborForce()">Labor Force Participation</button>
@@ -560,7 +567,7 @@ function populationPyramid(year,country){
 
 
 
-              function scatterplotMatrix() {
+              function scatterplotMatrix(){
                 clearChart();
                 // Define dimensions and margins
                 var width = 950,
