@@ -94,6 +94,7 @@
         display: block;
     }
 
+
 </style>
 </head>
 
@@ -183,7 +184,8 @@
                 </div>
                 <h4>Level of education</h4>
                 <p>Opportunity costs associated with having children</p>
-                <h4 id="education-button" class="main-button scroll-to-section" onclick="education()">Select</h4>
+                <h4 id="education-button" class="main-button scroll-to-section"" onclick="clearChart()">Select</h4>
+                <br><h4 class="main-button scroll-to-section" onclick="education()">Show Scatterplot Chart</h4>
                 <div id="my_dataviz"></div>
                 <p id="education-paragraph" class="hidden-paragraph">Higher education correlates with increased knowledge of 
                   and access to birth control methods, allowing for better control over fertility rates. 
@@ -200,7 +202,8 @@
                 </div>
                 <h4>Commitment to Work</h4>
                 <p>Increased workload and stress from job responsibilities</p>
-                <h4 id="work-button" class="main-button scroll-to-section" onclick="laborForce()">Select</h4>
+                <h4 id="work-button" class="main-button scroll-to-section" onclick="clearChart()" >Select</h4>
+                <br><h4 class="main-button scroll-to-section" onclick="laborForce()">Show Scatterplot Chart</h4>
                 <div id="my_dataviz1"></div>
                 <p id="work-paragraph" class="hidden-paragraph">Additional paragraph for Commitment to work.</p>
                 <p id="ideal-work-paragraph" class="hidden-paragraph">Additional paragraph for Commitment to work for Ideal Fertility Rates.</p>
@@ -213,7 +216,8 @@
                 </div>
                 <h4>Use of contraceptives</h4>
                 <p>Financial or personal reasons hinder access to contraception</p>
-                <h4 id="contraceptives-button" class="main-button scroll-to-section" onclick="contraceptive()">Select</h4>
+                <h4 id="contraceptives-button" class="main-button scroll-to-section" onclick="clearChart()">Select</h4>
+                <br><h4 class="main-button scroll-to-section" onclick="contraceptive()">Show Scatterplot Chart</h4>
                 <div id="my_dataviz2"></div>
                 <p id="ideal-contraceptives-paragraph" class="hidden-paragraph">Misconceptions in developing countries 
                   about contraceptives harming women's health lead to low usage, increasing unintended pregnancies and high fertility rates.</p>
@@ -228,7 +232,8 @@
                 </div>
                 <h4>Factors affecting my children's lifespan</h4>
                 <p>Concerns regarding the potential impacts of environmental or genetic factors on my children's lifespan</p>
-                <h4 id="lifespan-button" class="main-button scroll-to-section" onclick="mortalityRate()">Select</h4>
+                <h4 id="lifespan-button" class="main-button scroll-to-section" onclick="clearChart()">Select</h4>
+                <br><h4 class="main-button scroll-to-section" onclick="mortalityRate()">Show Scatterplot Chart</h4>
                 <div id="my_dataviz3"></div>
                   <p id="lifespan-paragraph" class="hidden-paragraph">Reduced child mortality rates instill confidence in child survival, lessening the necessity for additional children to provide financial support. 
                     This reduces the need for having additional children solely for financial support, ultimately leading to lower fertility rates.</p>
@@ -341,12 +346,18 @@
   <script>
       function clearChart() {
         d3.selectAll("svg").remove();
+        d3.select("#my_dataviz p").remove();
+        d3.select("#my_dataviz1 p").remove();
+        d3.select("#my_dataviz2 p").remove();
+        d3.select("#my_dataviz3 p").remove();
       } 
-      
+
       
       function education() {
-    clearChart();
+
+    clearChart("#my_dataviz");
     // Set up dimensions for the plot
+  
     var margin = { top: 30, right: 30, bottom: 50, left: 50 },
       width = 500 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
@@ -397,6 +408,10 @@
           .attr("x", width / 2)
           .attr("y", height + 28)
           .text("Fertility Rate");
+
+      d3.select("#my_dataviz")
+      .append("p")
+      .text("There is a strong negative correlation of -0.78 between education level and women's fertility rate");
 
       // Add Y axis
       var y = d3
@@ -501,6 +516,10 @@
           .attr("x", width / 2)
           .attr("y", height + 28)
           .text("Fertility Rate");
+      
+          d3.select("#my_dataviz1")
+            .append("p")
+            .text("There is a weak negative correlation of -0.13 between labour force participation and women's fertility rate");
 
       // Add Y axis
       var y = d3
@@ -605,6 +624,11 @@
         .attr("y", height + 28)
         .text("Fertility Rate");
 
+
+      d3.select("#my_dataviz2")
+        .append("p")
+        .text("There is a strong negative correlation of -0.72 between use of contraceptive and women's fertility rate");
+
       // Add Y axis
       var y = d3
         .scaleLinear()
@@ -707,6 +731,11 @@
         .attr("y", height + 28)
         .style("font-size", "12px")
         .text("Fertility Rate");
+
+
+        d3.select("#my_dataviz3")
+          .append("p")
+          .text("There is a strong positive correlation of 0.88 child mortality rate and women's fertility rate");
 
       // Add Y axis
       var y = d3
