@@ -913,11 +913,11 @@ function populationPyramid(year,country){
             
                 // Labels of rows and columns
                 var myVars = [
-                  "Labor force participation rate, female (% of female population ages 15+) (national estimate)",
-                  "Fertility rate - Sex: all - Age: all - Variant: estimates_x",
-                  "Child mortality rate - Sex: all - Age: 0-4 - Variant: estimates",
-                  "Combined - average years of education for 15-64 years female youth and adults",
-                  "Contraceptive prevalence, any modern method (% of married women ages 15-49)",
+                  "Females' length of education",
+                  "Fertility rate",
+                  "Child mortality rate",
+                  "Females' length of education",
+                  "Contraceptive prevalence",
                 ];
             
                 // Build scales and axes
@@ -934,7 +934,7 @@ function populationPyramid(year,country){
                 svg.append("g").call(d3.axisLeft(y).tickSize(0));
             
                 // Read the data
-                d3.csv("data/FINALcombinedData1.csv", function (data) {
+                d3.csv("data/ShortenedcombinedData1.csv", function (data) {
                   // Compute the correlation matrix
                   var corrMatrix = computeCorrelationMatrix(data);
             
@@ -1170,14 +1170,15 @@ function populationPyramid(year,country){
                   .text("Analysis of Factors for Fertility Rate"); // Adjust the title text as needed
             
                 // Parse the Data
-                d3.csv("data/FINALcombinedData1.csv", function (data) {
+                d3.csv("data/ShortenedcombinedData1.csv", function (data) {
                   // Here I set the list of dimension manually to control the order of axis:
                   dimensions = [
-                    "Labor force participation rate, female (% of female population ages 15+) (national estimate)",
-                    "Child mortality rate - Sex: all - Age: 0-4 - Variant: estimates",
-                    "Combined - average years of education for 15-64 years female youth and adults",
-                    "Contraceptive prevalence, any modern method (% of married women ages 15-49)",
-                    "Fertility rate - Sex: all - Age: all - Variant: estimates_x",
+                    "Females' length of education",
+                    "Child mortality rate",
+                    "Females' length of education",
+                    "Contraceptive prevalence",
+                    "Fertility rate",
+  
                   ];
             
                   // Calculate the maximum and minimum values for each dimension
@@ -1196,6 +1197,7 @@ function populationPyramid(year,country){
                       .scaleLinear()
                       .domain(minMaxValues[name]) // Extend the domain to cover the entire range of data values
                       .range([height, 0]);
+                      
                   }
             
                   // Build the X scale -> it finds the best position for each Y axis
@@ -1254,7 +1256,7 @@ function populationPyramid(year,country){
                     // .attr("transform", "rotate(-45)")
                     .text(function (d) {
                       // Shorten the dimension label to the first 30 characters
-                      return d.length > 30 ? d.substring(0, 30) + "..." : d;
+                      return d;
                     })
                     .style("fill", "black");
                 });
