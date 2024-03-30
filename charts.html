@@ -28,56 +28,56 @@
     margin-top: 110px;
     }
 
-  svg {
-    font: 10px sans-serif;
-    padding: 10px;
-  }
+    svg {
+      font: 10px sans-serif;
+      padding: 10px;
+    }
 
-  .axis,
-  .frame {
-    shape-rendering: crispEdges;
-  }
+    .axis,
+    .frame {
+      shape-rendering: crispEdges;
+    }
 
-  .axis line {
-    stroke: #ddd;
-  }
+    .axis line {
+      stroke: #ddd;
+    }
 
-  .axis path {
-    display: none;
-  }
+    .axis path {
+      display: none;
+    }
 
-  .cell text {
-    font-weight: bold;
-    text-transform: capitalize;
-  }
+    .cell text {
+      font-weight: bold;
+      text-transform: capitalize;
+    }
 
-  .frame {
-    fill: none;
-    stroke: #aaa;
-  }
+    .frame {
+      fill: none;
+      stroke: #aaa;
+    }
 
-  circle {
-    fill-opacity: 0.7;
-  }
+    circle {
+      fill-opacity: 0.7;
+    }
 
-  circle.hidden {
-    fill: #ccc !important;
-  }
+    circle.hidden {
+      fill: #ccc !important;
+    }
 
-  .extent {
-    fill: #000;
-    fill-opacity: 0.125;
-    stroke: #fff;
-  }
+    .extent {
+      fill: #000;
+      fill-opacity: 0.125;
+      stroke: #fff;
+    }
 
-  .axis-label {
-    font-size: 12px; /* Adjust font size as needed */
-    fill: black; /* Color of the axis labels */
-  }
+    .axis-label {
+      font-size: 12px; /* Adjust font size as needed */
+      fill: black; /* Color of the axis labels */
+    }
 
-  #selectionBox{
-    padding-left: 20px;
-  }
+    #selectionBox{
+      padding-left: 20px;
+    }
 </style>
  
 </head>
@@ -114,8 +114,6 @@
   <div class="page-heading">
   
     <h6 class="text-center mt-0">Our visualisations</h6>
-
-       
 
       <ul class="nav nav-tabs justify-content-center py-3" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -481,15 +479,32 @@ function populationPyramid(year,country){
     </script>
 
 <style>
-#container {
-    display: flex;
-    margin-bottom: 50px;
-}
+    #container {
+        display: flex;
+        margin-bottom: 50px;
+    }
 
-#my_dataviz, #viz_container {
-    width: 50%;
-    margin: 20px;
-}
+    #my_dataviz, #viz_container {
+        width: 50%;
+        margin: 20px;
+    }
+
+    .container1 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 20px; /* Adjust the gap between columns */
+        /* padding-top: 10px; */
+        padding-bottom: 10px;
+    }
+    .column1 {
+        padding: 20px;
+        background-color: #f0f0f0;
+    }
+
+    body {
+      text-align: center;
+    }
+    
 
 
 </style>
@@ -502,10 +517,28 @@ function populationPyramid(year,country){
           <div class = "container">
             <div class="col">
               <h6 class="pb-2 text-center">Exploring Relationships between Factors of Low or High Fertility Rates</h6>
-          </div>
+            </div>
             <!-- <div id="observablehq-chart-c0e013e6"></div>  -->
-            <div class = "container">
-              <table class="table">
+            <div class="container1">
+                  
+                <button type="button" class="btn btn-outline-secondary" onclick="correlationHeatmap()">Heatmap</button>
+
+                <button type="button" class="btn btn-outline-secondary" onclick="parallelSets()">Parallel Coordinates</button>
+             
+          </div>
+          <div>
+            <h6 class="pb-2 text-center">Scatterplot of Factors</h6>
+          </div>
+            <div class = "container1">
+              
+              <button type="button" class="btn btn-outline-secondary" onclick="scatterplotMatrix()">Scatterplot Matrix</button>
+              <button type="button" class="btn btn-outline-secondary" onclick="education()">Education Attainment</button>
+              <button type="button" class="btn btn-outline-secondary" onclick="mortalityRate()">Child Mortality Rate</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="laborForce()">Labor Force Participation</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="contraceptive()">Modern Contraceptive</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="clearChart()">Collapse All</button>
+              
+              <!-- <table class="table">
         
                 <tbody>
 
@@ -517,31 +550,31 @@ function populationPyramid(year,country){
                   
                   <tr>
                     <td class="text-center" colspan="2">
+                      <div id="my_dataviz1"></div>
                       <img id="image"
                   src="assets/images/heatmap.png" />
                     </td>
                   </tr>
                   
                   <tr>
-                    <td class="text-center" colspan="2">
+                    <td class="text-center" colspan="2" id="my_dataviz2">
+                      <div id="my_dataviz2"></div>
                       <img id="imagep3"
                   src="assets/images/parallelsets.png" />
                     </td>
                   </tr> 
                       
                 </tbody>
-              </table>
+              </table> -->
             </div>
 
-            <div>
+            <!-- <div>
               <div class="col justify-content-center">
                 <h6 class="pb-2 text-center">Scatterplots of Factors</h6>
               </div>
 
               <div style="text-align: center;">
                 <row style="text-align: center;">
-                  
-                
                   <button type="button" class="btn btn-outline-secondary" onclick="scatterplotMatrix()">Scatterplot</button>
                 <button type="button" class="btn btn-outline-secondary" onclick="education()">Education Attainment</button>
                 <button type="button" class="btn btn-outline-secondary" onclick="mortalityRate()">Child Mortality Rate</button>
@@ -551,7 +584,7 @@ function populationPyramid(year,country){
                 </row>
             </div>
             
-          </div>
+          </div> -->
             
             <!-- <script type="module">
               import {
@@ -572,9 +605,6 @@ function populationPyramid(year,country){
                 d3.selectAll("img").remove();
                 d3.selectAll("svg").remove();
               }
-            
-
-
 
               function scatterplotMatrix(){
                 clearChart();
@@ -854,7 +884,7 @@ function populationPyramid(year,country){
                   
                 // Append the SVG object to the body of the page
                 var svg = d3
-                  .select("#my_dataviz")
+                  .select("body")
                   .append("svg")
                   .attr("width", width + margin.left + margin.right)
                   .attr("height", height + margin.top + margin.bottom)
@@ -937,22 +967,22 @@ function populationPyramid(year,country){
                     .attr("height", y.bandwidth())
                     .style("fill", function (d) {
                       return colorScale(d.value);
-                    })
-                    .on("mouseover", function (d) {
-                      tooltip
-                        .style("opacity", 1)
-                        .style("left", d3.event.pageX + "px")
-                        .style("top", d3.event.pageY + "px");
-                      tooltip.html("Correlation: " + d.value.toFixed(2));
-                    })
-                    .on("mousemove", function (d) {
-                      tooltip
-                        .style("left", d3.event.pageX + "px")
-                        .style("top", d3.event.pageY + "px");
-                    })
-                    .on("mouseout", function (d) {
-                      tooltip.style("opacity", 0);
                     });
+                    // .on("mouseover", function (d) {
+                    //   tooltip
+                    //     .style("opacity", 1)
+                    //     .style("left", d3.event.pageX + "px")
+                    //     .style("top", d3.event.pageY + "px");
+                    //   tooltip.html("Correlation: " + d.value.toFixed(2));
+                    // })
+                    // .on("mousemove", function (d) {
+                    //   tooltip
+                    //     .style("left", d3.event.pageX + "px")
+                    //     .style("top", d3.event.pageY + "px");
+                    // })
+                    // .on("mouseout", function (d) {
+                    //   tooltip.style("opacity", 0);
+                    // });
             
                   // Define legend scale
                   var legendScale = d3
@@ -1022,6 +1052,46 @@ function populationPyramid(year,country){
                     .attr("width", width) // Use the width of the SVG
                     .attr("height", 20) // Adjust the height as needed
                     .style("fill", "url(#legendGradient)");
+
+                    // Draw the heatmap
+                  var heatmapCells = svg
+                    .selectAll(".heatmap-rect")
+                    .data(corrMatrix)
+                    .enter()
+                    .append("g")
+                    .selectAll(".heatmap-cell")
+                    .data(function (d, i) {
+                      return d.map((value, j) => ({ value, i, j }));
+                    })
+                    .enter()
+                    .append("g")
+                    .attr("class", "heatmap-cell-container")
+                    .attr("transform", function (d) {
+                      return "translate(" + x(myVars[d.j]) + "," + y(myVars[d.i]) + ")";
+                    });
+
+                  // Append rectangle for heatmap cells
+                  heatmapCells
+                    .append("rect")
+                    .attr("class", "heatmap-cell")
+                    .attr("width", x.bandwidth())
+                    .attr("height", y.bandwidth())
+                    .style("fill", function (d) {
+                      return colorScale(d.value);
+                    });
+
+                  // Append text for correlation labels
+                  heatmapCells
+                    .append("text")
+                    .attr("class", "correlation-label")
+                    .attr("x", x.bandwidth() / 2)
+                    .attr("y", y.bandwidth() / 2)
+                    .attr("dy", "0.35em")
+                    .style("text-anchor", "middle")
+                    .style("fill", "black")
+                    .text(function (d) {
+                      return d.value.toFixed(2);
+                    });
                 });
             
                 // Function to compute the correlation matrix
@@ -1083,7 +1153,7 @@ function populationPyramid(year,country){
             
                 // append the svg object to the body of the page
                 var svg = d3
-                  .select("#my_dataviz")
+                  .select("body")
                   .append("svg")
                   .attr("width", width + margin.left + margin.right)
                   .attr("height", height + margin.top + margin.bottom)
