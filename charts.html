@@ -178,9 +178,8 @@ var title = d3.select("#my_dataviz")
 
 fertilityOverTime()
 
-
-populationPyramid("1950","Afghanistan")
-var selectedCountry = ""
+var selectedCountry = "All"
+populationPyramid("1950")
 
 function fertilityOverTime(){
     // set the dimensions and margins of the graph
@@ -201,7 +200,7 @@ function fertilityOverTime(){
               "translate(" + margin.left + "," + margin.top + ")")
       
     //Read the data
-      d3.csv("children-per-woman-un3 2.csv", function(data) {
+      d3.csv("data/children-per-woman-un3 output.csv", function(data) {
     
         // dataFilter = data
         var allGroup = d3.map(data, function(d){return(d.name)}).keys()
@@ -218,7 +217,7 @@ function fertilityOverTime(){
         var myColor = d3.scaleOrdinal()
           .domain(allGroup)
           .range(d3.schemeSet2);
-    
+
         // Add X axis --> it is a date format
         var x = d3.scaleLinear()
           .domain(d3.extent(data, function(d) { return d.year; }))
@@ -255,7 +254,8 @@ function fertilityOverTime(){
             // run the updateChart function with this selected option
             updateFertilityLine(selectedOption)
             selectedCountry = selectedOption
-            populationPyramid("1950",selectedOption)
+            
+            populationPyramid("1950")
         })
         d3.select("#selectSg").on("click", function(d) {
             updateToSG()
@@ -289,6 +289,7 @@ function fertilityOverTime(){
         }
 
         function updateToSG() {
+          populationPyramid("1950")
           document.getElementById('selectButtonCountry').value = 'Singapore';
            
           dataFilter = data.filter(function(d){return d.name=="Singapore"})
@@ -320,13 +321,15 @@ function mousemove() {
     var d = x0 - d0.year > d1.year - x0 ? d1 : d0;
 
     Tooltip.html("Year: <b>" + d.year + "</b> <br>"+ "Fertility Rate: <b>" + d.n + "</b>");
-    populationPyramid(d.year, selectedCountry);
+    populationPyramid(d.year);
   }
 
      })
     }
 
-function populationPyramid(year,country){
+function populationPyramid(year){
+  d3.selectAll("#viz_container > *").remove();
+  
   // set the dimensions and margins of the graph
   const margin = {top: 20, right: 20, bottom: 30, left: 60};
   const width = 450 - margin.left - margin.right;
@@ -334,6 +337,7 @@ function populationPyramid(year,country){
 
   // append the svg object to the body of the page
   const svg = d3.select("#viz_container")
+  
     .append("svg")
       .attr("width", "100%")
       .attr("height", "100%")
@@ -343,31 +347,22 @@ function populationPyramid(year,country){
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
   // parse the Data
-  
-  d3.csv("population_pyramid_1950-2022 edited 2 2.csv", function(data){
-    data = data.filter(function(d){return d.Country==country})
+  d3.csv("data/population_pyramid_1950-2022 output 2.csv", function(data){
+    //data = data.filter(function(d){return d.Country==country})
+    
+    // data = data.filter(function(d){return d.Year==year})
     data = data.filter(function(d){return d.Year==year})
     
-    
-    // var allGroupPyramidYear = Array.from(new Set(d3.map(data, function(d){return(d.Year)})).keys())
-    // d3.select("#selectButtonPyramidYear")
-    //   .selectAll('myOptions')
-    //       .data(allGroupPyramidYear)
-    //   .enter()
-    //     .append('option')
-    //   .text(function (d) { return d; }) // text showed in the menu
-    //   .attr("value", function (d) { return d; }) // corresponding value returned by the button
-
-    // var allGroupPyramidCountry = Array.from(new Set(d3.map(data, function(d){return(d.Country)})).keys())
-    // d3.select("#selectButtonPyramidCountry")
-    //   .selectAll('myOptions')
-    //       .data(allGroupPyramidCountry)
-    //   .enter()
-    //     .append('option')
-    //   .text(function (d) { return d; }) // text showed in the menu
-    //   .attr("value", function (d) { return d; }) // corresponding value returned by the button
-
-  // X scale and Axis
+    data = data.filter(function(d){return d.Country==selectedCountry})
+    console.log(data)
+    if (data.length== 0){
+      
+      d3.select("#viz_container").append("p")
+            .text("NO data found!");
+    }
+    else{
+       
+      // X scale and Axis
   const xScaleMale = d3.scaleLinear()
     .domain([0, d3.max(data, d => +d.male)])
     .range([width/2, 0]);
@@ -377,7 +372,7 @@ function populationPyramid(year,country){
     .call(d3.axisBottom(xScaleMale).tickSize(0).tickPadding(3).ticks(7, "%"))
     .call(function(d) { return d.select(".domain").remove()});
 
-  const xScaleFemale = d3.scaleLinear()
+    const xScaleFemale = d3.scaleLinear()
     .domain([0, d3.max(data, d => +d.female)])
     .range([width/2, width]);
   svg
@@ -386,26 +381,26 @@ function populationPyramid(year,country){
     .call(d3.axisBottom(xScaleFemale).tickSize(0).tickPadding(3).ticks(7, "%"))
     .call(function(d) { return d.select(".domain").remove()});
 
-  // Y scale and Axis
+    // Y scale and Axis
   const yScale = d3.scaleBand()
-      .domain(data.map(d => d.Age))
-      .range([height, 0])
-      .padding(.25);
+  .domain(data.map(d => d.Age))
+  .range([height, 0])
+  .padding(.25);
   svg
-      .append("g")
-      .call(d3.axisLeft(yScale).tickSize(0).tickPadding(15))
-      .call(d => d.select(".domain").remove());
+    .append("g")
+    .call(d3.axisLeft(yScale).tickSize(0).tickPadding(15))
+    .call(d => d.select(".domain").remove());
 
   svg.selectAll(".maleBar")
-    .data(data)
-    .enter()
-    .append("rect")
-    .attr("class", "barMale")
-    .attr("x", d => xScaleMale(d.male))
-      .attr("y", d => yScale(d.Age))
-    .attr("width", function(d) { return width/2 - xScaleMale(d.male); })
-    .attr("height", yScale.bandwidth())
-    .style("fill", "#18375F")
+  .data(data)
+  .enter()
+  .append("rect")
+  .attr("class", "barMale")
+  .attr("x", d => xScaleMale(d.male))
+    .attr("y", d => yScale(d.Age))
+  .attr("width", function(d) { return width/2 - xScaleMale(d.male); })
+  .attr("height", yScale.bandwidth())
+  .style("fill", "#18375F")
 
   // create female bars
   svg.selectAll(".femaleBar")
@@ -419,35 +414,7 @@ function populationPyramid(year,country){
     .attr("height", yScale.bandwidth())
     .style("fill", "#0072BC")
 
-  // set title
-//   svg
-//     .append("text")
-//       .attr("class", "chart-title")
-//       .attr("x", -(margin.left)*0.7)
-//       .attr("y", -(margin.top)/1.5)
-//       .attr("text-anchor", "start")
-//     .text("Demographics of forcibly displaced people | 2020")
-
-  // set source
-//   svg
-//     .append("text")
-//       .attr("class", "chart-source")
-//       .attr("x", -(margin.left)*0.7)
-//       .attr("y", height + margin.bottom*0.7)
-//       .attr("text-anchor", "start")
-//     .text("Source: UNHCR")
-
-//   // set copyright
-//   svg
-//     .append("text")
-//       .attr("class", "copyright")
-//       .attr("x", -(margin.left)*0.7)
-//       .attr("y", height + margin.bottom*0.9)
-//       .attr("text-anchor", "start")
-//     .text("©UNHCR, The UN Refugee Agency")
-
-  //set legend
-  svg
+    svg
       .append("rect")
           .attr("x", -(margin.left)*0.7)
           .attr("y", -(margin.top/1.5))
@@ -473,6 +440,10 @@ function populationPyramid(year,country){
           .attr("x", 60)
           .attr("y", -(margin.top/5.5))
       .text("Female")
+
+
+    }
+    
 
   })
 }
