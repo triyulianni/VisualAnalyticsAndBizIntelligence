@@ -198,7 +198,7 @@ function fertilityOverTime(){
               "translate(" + margin.left + "," + margin.top + ")")
       
     //Read the data
-      d3.csv("data/children-per-woman-un3 2.csv", function(data) {
+      d3.csv("data/children-per-woman-un3 output.csv", function(data) {
     
         // dataFilter = data
         var allGroup = d3.map(data, function(d){return(d.name)}).keys()
@@ -287,6 +287,7 @@ function fertilityOverTime(){
         }
 
         function updateToSG() {
+          populationPyramid("1950")
           document.getElementById('selectButtonCountry').value = 'Singapore';
            
           dataFilter = data.filter(function(d){return d.name=="Singapore"})
@@ -325,7 +326,7 @@ function mousemove() {
     }
 
 function populationPyramid(year){
-  d3.selectAll("#viz_container > *").remove(); 
+  d3.selectAll("#viz_container > *").remove();
   
   // set the dimensions and margins of the graph
   const margin = {top: 20, right: 20, bottom: 30, left: 60};
@@ -334,6 +335,7 @@ function populationPyramid(year){
 
   // append the svg object to the body of the page
   const svg = d3.select("#viz_container")
+  
     .append("svg")
       .attr("width", "100%")
       .attr("height", "100%")
@@ -350,13 +352,14 @@ function populationPyramid(year){
     data = data.filter(function(d){return d.Year==year})
     
     data = data.filter(function(d){return d.Country==selectedCountry})
-    
+    console.log(data)
     if (data.length== 0){
       
-      d3.select("body").append("p")
+      d3.select("#viz_container").append("p")
             .text("NO data found!");
     }
     else{
+       
       // X scale and Axis
   const xScaleMale = d3.scaleLinear()
     .domain([0, d3.max(data, d => +d.male)])
