@@ -286,7 +286,6 @@
 
     d3.select("#selectButtonConsequences").on("change", function(d) {
       var selectedOption = d3.select(this).property("value")
-      console.log(selectedOption)
       plotWhatIfGraphs(selectedOption)
       
   })
@@ -546,7 +545,8 @@
       );
 
     // Load data
-    d3.csv("FINALcombinedData1.csv", function (data) {
+    d3.csv("data/FINALcombinedData1.csv", function (data) {
+      console.log(data)
       // Add X axis
       var x = d3
         .scaleLinear()
@@ -656,7 +656,7 @@
       );
 
     // Load data
-    d3.csv("FINALcombinedData1.csv", function (data) {
+    d3.csv("data/FINALcombinedData1.csv", function (data) {
       // Add X axis
       var x = d3
         .scaleLinear()
@@ -764,7 +764,7 @@
       );
 
     // Load data
-    d3.csv("FINALcombinedData1.csv", function (data) {
+    d3.csv("data/FINALcombinedData1.csv", function (data) {
       // Add X axis
       var x = d3
         .scaleLinear()
@@ -874,7 +874,7 @@
       );
 
     // Load data
-    d3.csv("FINALcombinedData1.csv", function (data) {
+    d3.csv("data/FINALcombinedData1.csv", function (data) {
       // Add X axis
       var x = d3
         .scaleLinear()
