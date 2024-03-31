@@ -259,7 +259,15 @@
           <div class="section-heading">
             <h2>On a larger scale (country level), how would your decision affect your country?</h2>
             <div class="line-dec"></div>
+            <select id="selectButtonConsequences">
+              <option value="demographics"> Demographic </option>
+              <option value="economics"> Economics </option>
+              <option value="healthcare"> Healthcare </option>
+              <option value="education"> Education </option>
+            </select>
+            <div id="whatIfBarGraph"></div>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doers eiusmod.</p>
+            
           </div>
         </div>
       </div>
@@ -267,28 +275,180 @@
    
   </div>
 
-
-
   <!-- Scripts -->
   <script> 
     var selectedNumber = 0;
+    var selectedNumberWhatIfGraph = 0;
+
+    
+    plotWhatIfGraphs("demographics")
+
+
+    d3.select("#selectButtonConsequences").on("change", function(d) {
+      var selectedOption = d3.select(this).property("value")
+      console.log(selectedOption)
+      plotWhatIfGraphs(selectedOption)
+      
+  })
 
     function showStatement(number) {
-    selectedNumber = number;
-    var selectedNumberPlaceholder = document.getElementById('selectedNumberPlaceholder');
-    var selectedNumberPlaceholder1 = document.getElementById('selectedNumberPlaceholder1')
-    selectedNumberPlaceholder.textContent = selectedNumber;
-    if (parseInt(selectedNumber) < 2) {
-        selectedNumberPlaceholder.textContent = selectedNumber;
-        document.getElementById('revised-statement').style.display = 'block';
-        document.getElementById('revised-statement1').style.display = 'none'; // Hide revised-statement1 if selectedNumber is less than 2
-    } 
-    else if (parseInt(selectedNumber) >= 2) {
-        selectedNumberPlaceholder1.textContent = selectedNumber;
-        document.getElementById('revised-statement').style.display = 'none'; // Hide revised-statement if selectedNumber is greater than or equal to 2
-        document.getElementById('revised-statement1').style.display = 'block';
+      var dropdown = d3.select("#selectButtonConsequences");
+      dropdown.property("value", "demographics");
+
+      selectedNumberWhatIfGraph = number
+      plotWhatIfGraphs("demographics")
+      selectedNumber = number;
+      var selectedNumberPlaceholder = document.getElementById('selectedNumberPlaceholder');
+      var selectedNumberPlaceholder1 = document.getElementById('selectedNumberPlaceholder1')
+      selectedNumberPlaceholder.textContent = selectedNumber;
+      if (parseInt(selectedNumber) < 2) {
+          selectedNumberPlaceholder.textContent = selectedNumber;
+          document.getElementById('revised-statement').style.display = 'block';
+          document.getElementById('revised-statement1').style.display = 'none'; // Hide revised-statement1 if selectedNumber is less than 2
+      } 
+      else if (parseInt(selectedNumber) >= 2) {
+          selectedNumberPlaceholder1.textContent = selectedNumber;
+          document.getElementById('revised-statement').style.display = 'none'; // Hide revised-statement if selectedNumber is greater than or equal to 2
+          document.getElementById('revised-statement1').style.display = 'block';
+      }
     }
-  }
+
+    function plotWhatIfGraphs(consequence){
+      console.log(selectedNumberWhatIfGraph)
+      d3.selectAll("#whatIfBarGraph > *").remove();
+      // set the dimensions and margins of the graph
+      var margin = {top: 10, right: 30, bottom: 60, left: 60},
+      width = 860 - margin.left - margin.right,
+      height = 300 - margin.top - margin.bottom;
+
+      // append the svg object to the body of the page
+      var svg = d3.select("#whatIfBarGraph")
+      .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+      var dataSource =""
+      if (selectedNumberWhatIfGraph == 0){
+        dataSource = "data/output-zerofertility.csv"
+      }
+      else if (selectedNumberWhatIfGraph == 1){
+        dataSource = "data/output-onefertility.csv"
+      }
+      else if (selectedNumberWhatIfGraph == 2){
+        dataSource = "data/output-twofertility.csv"
+      }
+      else if (selectedNumberWhatIfGraph == 3){
+        dataSource = "data/output-threefertility.csv"
+      }
+      else {
+        dataSource = "data/output-fourfertility.csv"
+      }
+      
+      //Read the data
+      d3.csv( dataSource,
+      //d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/3_TwoNumOrdered_comma.csv",
+
+      // When reading the csv, I must format variables:
+      //function(d){
+      //return { date : d3.timeParse("%Y-%m-%d")(d.date), value : d.value }
+      //},
+
+      // Now I can use this dataset:
+      
+      function(data) {
+        console.log(data)
+
+      // Add X axis --> it is a date format
+      var x = d3.scaleLinear()
+          .domain(d3.extent(data, function(d) { return d.year; }))
+          .range([0, width]);
+        svg.append("g")
+          .attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(x).ticks(7));
+
+      if (consequence == "demographics"){
+        var y = d3.scaleLinear()
+        .domain([0, d3.max(data, function(d) { return +d.population; })])
+        .range([ height, 0 ]);
+      } 
+      else if (consequence == "economics"){
+        var y = d3.scaleLinear()
+        .domain([0, d3.max(data, function(d) { return +d.economics; })])
+        .range([ height, 0 ]);
+      } 
+      else if (consequence == "healthcare"){
+        var y = d3.scaleLinear()
+        .domain([0, d3.max(data, function(d) { return +d.healthcare; })])
+        .range([ height, 0 ]);
+      } 
+      else{
+        var y = d3.scaleLinear()
+        .domain([0, d3.max(data, function(d) { return +d.education; })])
+        .range([ height, 0 ]);
+      } 
+
+      
+      svg.append("g")
+        .call(d3.axisLeft(y));
+
+      // Add the line
+      if (consequence == "demographics"){
+        svg.append("path")
+        .datum(data)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 1.5)
+        .attr("d", d3.line()
+          .x(function(d) { return x(d.year) })
+          .y(function(d) { return y(d.population) })
+          )
+      } 
+      else if (consequence == "economics"){
+        svg.append("path")
+        .datum(data)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 1.5)
+        .attr("d", d3.line()
+          .x(function(d) { return x(d.year) })
+          .y(function(d) { return y(d.economics) })
+          )
+      } 
+      else if (consequence == "healthcare"){
+        svg.append("path")
+        .datum(data)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 1.5)
+        .attr("d", d3.line()
+          .x(function(d) { return x(d.year) })
+          .y(function(d) { return y(d.healthcare) })
+          )
+      } 
+      else {
+        svg.append("path")
+        .datum(data)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 1.5)
+        .attr("d", d3.line()
+          .x(function(d) { return x(d.year) })
+          .y(function(d) { return y(d.education) })
+          )
+      } 
+
+      
+
+      })
+      
+    
+
+    }
+
+
 
   document.addEventListener("DOMContentLoaded", function() {
 
