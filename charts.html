@@ -153,7 +153,8 @@
 
 <h5 style="color: purple;" align="center">Global Trends: Fertility Rates Over Time</h5> <br>
 <!-- racing chart -->
-<div id="observablehq-viewof-replay-f0ea302e"></div>
+<div id="observablehq-viewof-replay-f0ea302e">
+</div>
 <div id="observablehq-chart-f0ea302e"></div>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@5/dist/inspector.css"> 
 
@@ -336,9 +337,14 @@ function populationPyramid(year){
   const width = 450 - margin.left - margin.right;
   const height = 350 - margin.top - margin.bottom;
 
+   // Append the title with inline style
+var title = d3.select("#viz_container")
+    .append("h5")
+    .style("color", "purple")
+    .text("Population Pyramid");
+
   // append the svg object to the body of the page
   const svg = d3.select("#viz_container")
-  
     .append("svg")
       .attr("width", "100%")
       .attr("height", "100%")
@@ -346,6 +352,8 @@ function populationPyramid(year){
       .attr("preserveAspectRatio", "xMinYMin")
     .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+    
 
   // parse the Data
   d3.csv("data/population_pyramid_1950-2022 output 2.csv", function(data){
