@@ -313,10 +313,10 @@
     }
 
     function plotWhatIfGraphs(consequence){
-      console.log(selectedNumberWhatIfGraph)
+      
       d3.selectAll("#whatIfBarGraph > *").remove();
       // set the dimensions and margins of the graph
-      var margin = {top: 10, right: 30, bottom: 60, left: 100},
+      var margin = {top: 30, right: 30, bottom: 60, left: 100},
       width = 860 - margin.left - margin.right,
       height = 300 - margin.top - margin.bottom;
 
@@ -328,6 +328,27 @@
       .append("g")
       .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
+
+      var text2= ""
+      if (consequence == "demographics"){
+        var text2 = "Population vs Date"
+      }
+      else if (consequence == "economics"){
+        var text2 = "Labour force proportion out of population (%) vs Date"
+      }
+      else if (consequence == "healthcare"){
+        var text2 = "Healthcare Expenditure per capita ($) vs Date"
+      }
+      else{
+        var text2 = "Education expenditure ($) vs Date"
+      }
+      svg.append("text")
+      .attr("x", (width / 2))             
+      .attr("y", 0 - (margin.top / 2))
+      .attr("text-anchor", "middle")  
+      .style("font-size", "16px") 
+      .style("text-decoration", "underline")  
+      .text(text2);
 
       var dataSource =""
       if (selectedNumberWhatIfGraph == 0){
@@ -358,8 +379,7 @@
       // Now I can use this dataset:
       
       function(data) {
-        console.log(data)
-
+        
       // Add X axis --> it is a date format
       var x = d3.scaleLinear()
           .domain(d3.extent(data, function(d) { return d.year; }))
@@ -419,7 +439,7 @@
         .attr("text-anchor", "end")
         .attr("transform", "rotate(-90)")
         .attr("y", -70)
-        .attr("x", -50)
+        .attr("x", -10)
         .style("font-size", "12px")
         .text(text);
 
