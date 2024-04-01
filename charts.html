@@ -226,6 +226,14 @@ function fertilityOverTime(){
         svg.append("g")
           .attr("transform", "translate(0," + height + ")")
           .call(d3.axisBottom(x).ticks(7));
+
+        svg
+          .append("text")
+          .attr("text-anchor", "middle")
+          .attr("x", width / 2)
+          .attr("y", height + 28)
+          .style("font-size", "12px")
+          .text("Years");
     
         // Add Y axis
         var y = d3.scaleLinear()
@@ -233,6 +241,15 @@ function fertilityOverTime(){
           .range([ height, 0 ]);
         svg.append("g")
           .call(d3.axisLeft(y));
+
+        svg
+          .append("text")
+          .attr("text-anchor", "end")
+          .attr("transform", "rotate(-90)")
+          .attr("y", -40)
+          .attr("x", -130)
+          .style("font-size", "12px")
+          .text("Fertility Rate");
     
         // Initialize line with first group of the list
         var line = svg
@@ -333,7 +350,7 @@ function populationPyramid(year){
   d3.selectAll("#viz_container > *").remove();
   
   // set the dimensions and margins of the graph
-  const margin = {top: 20, right: 20, bottom: 30, left: 60};
+  const margin = {top: 20, right: 20, bottom: 30, left: 150};
   const width = 450 - margin.left - margin.right;
   const height = 350 - margin.top - margin.bottom;
 
@@ -352,8 +369,6 @@ var title = d3.select("#viz_container")
       .attr("preserveAspectRatio", "xMinYMin")
     .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-    
 
   // parse the Data
   d3.csv("data/population_pyramid_1950-2022 output 2.csv", function(data){
@@ -390,6 +405,15 @@ var title = d3.select("#viz_container")
     .call(d3.axisBottom(xScaleFemale).tickSize(0).tickPadding(3).ticks(7, "%"))
     .call(function(d) { return d.select(".domain").remove()});
 
+    svg
+          .append("text")
+          .attr("text-anchor", "middle")
+          .attr("x", width / 2)
+          .attr("y", height + 28)
+          .style("font-size", "12px")
+          .text("Proportion of population");
+    
+
     // Y scale and Axis
   const yScale = d3.scaleBand()
   .domain(data.map(d => d.Age))
@@ -399,6 +423,15 @@ var title = d3.select("#viz_container")
     .append("g")
     .call(d3.axisLeft(yScale).tickSize(0).tickPadding(15))
     .call(d => d.select(".domain").remove());
+
+  svg
+        .append("text")
+        .attr("text-anchor", "end")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -70)
+        .attr("x", -130)
+        .style("font-size", "12px")
+        .text("Age Group");
 
   svg.selectAll(".maleBar")
   .data(data)

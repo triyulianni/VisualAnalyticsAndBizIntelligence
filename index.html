@@ -266,7 +266,7 @@
               <option value="education"> Education </option>
             </select>
             <div id="whatIfBarGraph"></div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doers eiusmod.</p>
+           
             
           </div>
         </div>
@@ -316,7 +316,7 @@
       console.log(selectedNumberWhatIfGraph)
       d3.selectAll("#whatIfBarGraph > *").remove();
       // set the dimensions and margins of the graph
-      var margin = {top: 10, right: 30, bottom: 60, left: 60},
+      var margin = {top: 10, right: 30, bottom: 60, left: 100},
       width = 860 - margin.left - margin.right,
       height = 300 - margin.top - margin.bottom;
 
@@ -345,7 +345,7 @@
       else {
         dataSource = "data/output-fourfertility.csv"
       }
-      
+
       //Read the data
       d3.csv( dataSource,
       //d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/3_TwoNumOrdered_comma.csv",
@@ -392,6 +392,36 @@
       
       svg.append("g")
         .call(d3.axisLeft(y));
+
+      svg
+        .append("text")
+        .attr("text-anchor", "middle")
+        .attr("x", width / 2)
+        .attr("y", height + 28)
+        .style("font-size", "12px")
+        .text("Year");
+
+      if (consequence == "demographics"){
+        var text = "Population"
+      }
+      else if (consequence == "economics"){
+        var text = "Labour force proportion out of population (%)"
+      }
+      else if (consequence == "healthcare"){
+        var text = "Healthcare Expenditure per capita ($)"
+      }
+      else{
+        var text = "Education expenditure ($)"
+      }
+    
+      svg
+        .append("text")
+        .attr("text-anchor", "end")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -70)
+        .attr("x", -50)
+        .style("font-size", "12px")
+        .text(text);
 
       // Add the line
       if (consequence == "demographics"){
