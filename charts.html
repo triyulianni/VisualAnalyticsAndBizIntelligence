@@ -910,19 +910,19 @@ var title = d3.select("#viz_container")
                   .attr("x", width / 2)
                   .attr("y", -150)
                   .attr("text-anchor", "middle")
-                  .style("font-size", "24px")
-                  .text("Correlation Heatmap"); // Adjust the title text as needed
+                  .style("font-size", "16px")
+                  .text("Correlation Heatmap: Explore how various factors correlate with fertility rates."); // Adjust the title text as needed
             
                 // Add additional information text
-                svg
-                  .append("text")
-                  .attr("x", width / 2)
-                  .attr("y", -120)
-                  .attr("text-anchor", "middle")
-                  .style("font-size", "12px")
-                  .text(
-                    "Explore how various factors correlate with fertility rates. Hover over each cell to see correlation values. Correlation is at the bottom left of the graph."
-                  );
+                // svg
+                //   .append("text")
+                //   .attr("x", width / 2)
+                //   .attr("y", -120)
+                //   .attr("text-anchor", "middle")
+                //   .style("font-size", "16px")
+                //   .text(
+                //     "Explore how various factors correlate with fertility rates."
+                //   );
             
                 // Labels of rows and columns
                 var myVars = [
@@ -1179,7 +1179,7 @@ var title = d3.select("#viz_container")
                   .attr("x", width / 2)
                   .attr("y", -100)
                   .attr("text-anchor", "middle")
-                  .style("font-size", "24px")
+                  .style("font-size", "16px")
                   .text("Analysis of Factors for Fertility Rate"); // Adjust the title text as needed
             
                 // Parse the Data
@@ -1237,14 +1237,14 @@ var title = d3.select("#viz_container")
                     .style("stroke", function (d) {
                       // Color based on the value of 'Level of Fertility'
                       if (d["Level of Fertility"] === "Low") {
-                        return "blue";
+                        return "#0000CD";
                       } else if (d["Level of Fertility"] === "High") {
-                        return "red";
+                        return "#FF7F7F";
                       } else {
                         return "steelblue"; // Default color if neither 'Low' nor 'High'
                       }
                     })
-                    .style("opacity", 0.5);
+                    .style("opacity", 0.2);
             
                   // Draw the axis:
                   svg
