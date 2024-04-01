@@ -393,7 +393,7 @@ var title = d3.select("#viz_container")
   svg
     .append("g")
         .attr("transform", `translate(0, ${height})`)
-    .call(d3.axisBottom(xScaleMale).tickSize(0).tickPadding(3).ticks(7, "%"))
+    .call(d3.axisBottom(xScaleMale).tickSize(0).tickPadding(3).ticks(4, "%"))
     .call(function(d) { return d.select(".domain").remove()});
 
     const xScaleFemale = d3.scaleLinear()
@@ -402,7 +402,7 @@ var title = d3.select("#viz_container")
   svg
     .append("g")
         .attr("transform", `translate(0, ${height})`)
-    .call(d3.axisBottom(xScaleFemale).tickSize(0).tickPadding(3).ticks(7, "%"))
+    .call(d3.axisBottom(xScaleFemale).tickSize(0).tickPadding(3).ticks(4, "%"))
     .call(function(d) { return d.select(".domain").remove()});
 
     svg
