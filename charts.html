@@ -634,7 +634,7 @@ var title = d3.select("#viz_container")
             
                 var yAxis = d3.axisLeft(y).ticks(5);
             
-                d3.csv("data/ShortenedcombinedData.csv", function (error, data) {
+                d3.csv("data/CombinedData.csv", function (error, data) {
                   if (error) throw error;
             
                   var traits = d3.keys(data[0]).slice(2, -1); // Exclude the last column
@@ -948,7 +948,7 @@ var title = d3.select("#viz_container")
                 svg.append("g").call(d3.axisLeft(y).tickSize(0));
             
                 // Read the data
-                d3.csv("data/ShortenedcombinedData.csv", function (data) {
+                d3.csv("data/CombinedData.csv", function (data) {
                   // Compute the correlation matrix
                   var corrMatrix = computeCorrelationMatrix(data);
             
@@ -1184,7 +1184,7 @@ var title = d3.select("#viz_container")
                   .text("Analysis of Factors for Fertility Rate"); // Adjust the title text as needed
             
                 // Parse the Data
-                d3.csv("data/ShortenedcombinedData.csv", function (data) {
+                d3.csv("data/CombinedData.csv", function (data) {
                   // Here I set the list of dimension manually to control the order of axis:
                   dimensions = [
                     "Females' length of education",
@@ -1314,7 +1314,7 @@ var title = d3.select("#viz_container")
                       0,
                       d3.max(data, function (d) {
                         return +d[
-                          "Fertility rate - Sex: all - Age: all - Variant: estimates_x"
+                          "Fertility rate"
                         ];
                       }),
                     ])
@@ -1340,7 +1340,7 @@ var title = d3.select("#viz_container")
                       0,
                       d3.max(data, function (d) {
                         return +d[
-                          "Combined - average years of education for 15-64 years female youth and adults"
+                          "Females' length of education"
                         ];
                       }),
                     ])
@@ -1368,13 +1368,13 @@ var title = d3.select("#viz_container")
                     .append("circle")
                     .attr("cx", function (d) {
                       return x(
-                        d["Fertility rate - Sex: all - Age: all - Variant: estimates_x"]
+                        d["Fertility rate"]
                       );
                     })
                     .attr("cy", function (d) {
                       return y(
                         d[
-                          "Combined - average years of education for 15-64 years female youth and adults"
+                          "Females' length of education"
                         ]
                       );
                     })
@@ -1419,7 +1419,7 @@ var title = d3.select("#viz_container")
                       0,
                       d3.max(data, function (d) {
                         return +d[
-                          "Fertility rate - Sex: all - Age: all - Variant: estimates_x"
+                          "Fertility rate"
                         ];
                       }),
                     ])
@@ -1445,7 +1445,7 @@ var title = d3.select("#viz_container")
                       0,
                       d3.max(data, function (d) {
                         return +d[
-                          "Child mortality rate - Sex: all - Age: 0-4 - Variant: estimates"
+                          "Child mortality rate"
                         ];
                       }),
                     ])
@@ -1471,12 +1471,12 @@ var title = d3.select("#viz_container")
                     .append("circle")
                     .attr("cx", function (d) {
                       return x(
-                        d["Fertility rate - Sex: all - Age: all - Variant: estimates_x"]
+                        d["Fertility rate"]
                       );
                     })
                     .attr("cy", function (d) {
                       return y(
-                        d["Child mortality rate - Sex: all - Age: 0-4 - Variant: estimates"]
+                        d["Child mortality rate"]
                       );
                     })
                     .attr("r", 5)
@@ -1513,6 +1513,7 @@ var title = d3.select("#viz_container")
             
                 // Load data
                 d3.csv("data/CombinedData.csv", function (data) {
+                  console.log(data)
                   // Add X axis
                   var x = d3
                     .scaleLinear()
@@ -1520,7 +1521,7 @@ var title = d3.select("#viz_container")
                       0,
                       d3.max(data, function (d) {
                         return +d[
-                          "Fertility rate - Sex: all - Age: all - Variant: estimates_x"
+                          "Fertility rate"
                         ];
                       }),
                     ])
@@ -1546,7 +1547,7 @@ var title = d3.select("#viz_container")
                       0,
                       d3.max(data, function (d) {
                         return +d[
-                          "Labor force participation rate, female (% of female population ages 15+) (national estimate)"
+                          "Female labor force participation rate"
                         ];
                       }),
                     ])
@@ -1572,13 +1573,13 @@ var title = d3.select("#viz_container")
                     .append("circle")
                     .attr("cx", function (d) {
                       return x(
-                        d["Fertility rate - Sex: all - Age: all - Variant: estimates_x"]
+                        d["Fertility rate"]
                       );
                     })
                     .attr("cy", function (d) {
                       return y(
                         d[
-                          "Labor force participation rate, female (% of female population ages 15+) (national estimate)"
+                          "Female labor force participation rate"
                         ]
                       );
                     })
@@ -1623,7 +1624,7 @@ var title = d3.select("#viz_container")
                       0,
                       d3.max(data, function (d) {
                         return +d[
-                          "Fertility rate - Sex: all - Age: all - Variant: estimates_x"
+                          "Fertility rate"
                         ];
                       }),
                     ])
@@ -1649,7 +1650,7 @@ var title = d3.select("#viz_container")
                       0,
                       d3.max(data, function (d) {
                         return +d[
-                          "Contraceptive prevalence, any modern method (% of married women ages 15-49)"
+                          "Contraceptive prevalence"
                         ];
                       }),
                     ])
@@ -1676,13 +1677,13 @@ var title = d3.select("#viz_container")
                     .append("circle")
                     .attr("cx", function (d) {
                       return x(
-                        d["Fertility rate - Sex: all - Age: all - Variant: estimates_x"]
+                        d["Fertility rate"]
                       );
                     })
                     .attr("cy", function (d) {
                       return y(
                         d[
-                          "Contraceptive prevalence, any modern method (% of married women ages 15-49)"
+                          "Contraceptive prevalence"
                         ]
                       );
                     })

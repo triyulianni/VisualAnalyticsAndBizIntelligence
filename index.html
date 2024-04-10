@@ -604,7 +604,7 @@
           0,
           d3.max(data, function (d) {
             return +d[
-              "Fertility rate - Sex: all - Age: all - Variant: estimates_x"
+              "Fertility rate"
             ];
           }),
         ])
@@ -635,7 +635,7 @@
           0,
           d3.max(data, function (d) {
             return +d[
-              "Combined - average years of education for 15-64 years female youth and adults"
+              "Females' length of education"
             ];
           }),
         ])
@@ -663,13 +663,13 @@
         .append("circle")
         .attr("cx", function (d) {
           return x(
-            d["Fertility rate - Sex: all - Age: all - Variant: estimates_x"]
+            d["Fertility rate"]
           );
         })
         .attr("cy", function (d) {
           return y(
             d[
-              "Combined - average years of education for 15-64 years female youth and adults"
+              "Females' length of education"
             ]
           );
         })
@@ -714,7 +714,7 @@
           0,
           d3.max(data, function (d) {
             return +d[
-              "Fertility rate - Sex: all - Age: all - Variant: estimates_x"
+              "Fertility rate"
             ];
           }),
         ])
@@ -771,7 +771,7 @@
         .append("circle")
         .attr("cx", function (d) {
           return x(
-            d["Fertility rate - Sex: all - Age: all - Variant: estimates_x"]
+            d["Fertility rate"]
           );
         })
         .attr("cy", function (d) {
@@ -822,7 +822,7 @@
           0,
           d3.max(data, function (d) {
             return +d[
-              "Fertility rate - Sex: all - Age: all - Variant: estimates_x"
+              "Fertility rate"
             ];
           }),
         ])
@@ -855,7 +855,7 @@
           0,
           d3.max(data, function (d) {
             return +d[
-              "Contraceptive prevalence, any modern method (% of married women ages 15-49)"
+              "Contraceptive prevalence"
             ];
           }),
         ])
@@ -881,13 +881,13 @@
         .append("circle")
         .attr("cx", function (d) {
           return x(
-            d["Fertility rate - Sex: all - Age: all - Variant: estimates_x"]
+            d["Fertility rate"]
           );
         })
         .attr("cy", function (d) {
           return y(
             d[
-              "Contraceptive prevalence, any modern method (% of married women ages 15-49)"
+              "Contraceptive prevalence"
             ]
           );
         })
@@ -932,7 +932,7 @@
           0,
           d3.max(data, function (d) {
             return +d[
-              "Fertility rate - Sex: all - Age: all - Variant: estimates_x"
+              "Fertility rate"
             ];
           }),
         ])
@@ -965,7 +965,7 @@
           0,
           d3.max(data, function (d) {
             return +d[
-              "Child mortality rate - Sex: all - Age: 0-4 - Variant: estimates"
+              "Child mortality rate"
             ];
           }),
         ])
@@ -991,12 +991,12 @@
         .append("circle")
         .attr("cx", function (d) {
           return x(
-            d["Fertility rate - Sex: all - Age: all - Variant: estimates_x"]
+            d["Fertility rate"]
           );
         })
         .attr("cy", function (d) {
           return y(
-            d["Child mortality rate - Sex: all - Age: 0-4 - Variant: estimates"]
+            d["Child mortality rate"]
           );
         })
         .attr("r", 5)
