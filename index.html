@@ -595,7 +595,7 @@
       );
 
     // Load data
-    d3.csv("data/FINALcombinedData1.csv", function (data) {
+    d3.csv("data/CombinedData.csv", function (data) {
       console.log(data)
       // Add X axis
       var x = d3
@@ -706,7 +706,7 @@
       );
 
     // Load data
-    d3.csv("data/FINALcombinedData1.csv", function (data) {
+    d3.csv("data/CombinedData.csv", function (data) {
       // Add X axis
       var x = d3
         .scaleLinear()
@@ -745,7 +745,7 @@
           0,
           d3.max(data, function (d) {
             return +d[
-              "Labor force participation rate, female (% of female population ages 15+) (national estimate)"
+              "Female labor force participation rate"
             ];
           }),
         ])
@@ -777,7 +777,7 @@
         .attr("cy", function (d) {
           return y(
             d[
-              "Labor force participation rate, female (% of female population ages 15+) (national estimate)"
+              "Female labor force participation rate"
             ]
           );
         })
@@ -814,7 +814,7 @@
       );
 
     // Load data
-    d3.csv("data/FINALcombinedData1.csv", function (data) {
+    d3.csv("data/CombinedData.csv", function (data) {
       // Add X axis
       var x = d3
         .scaleLinear()
@@ -924,7 +924,7 @@
       );
 
     // Load data
-    d3.csv("data/FINALcombinedData1.csv", function (data) {
+    d3.csv("data/CombinedData.csv", function (data) {
       // Add X axis
       var x = d3
         .scaleLinear()
