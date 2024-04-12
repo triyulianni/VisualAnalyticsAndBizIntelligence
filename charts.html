@@ -123,7 +123,7 @@
           <button class="nav-link" id="task2-tab" data-bs-toggle="tab" data-bs-target="#task2" type="button" role="tab" aria-controls="task2" aria-selected="false"> Task 2</button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="task3-tab" data-bs-toggle="tab" data-bs-target="#task3" type="button" role="tab" aria-controls="task3" aria-selected="false">Task 3</button>
+          <button class="nav-link" id="task3-tab" data-bs-toggle="tab" data-bs-target="#task3" type="button" role="tab" aria-controls="task3" aria-selected="false" onclick="clearChart()">Task 3</button>
         </li>
       </ul>
       
@@ -535,7 +535,6 @@ var title = d3.select("#viz_container")
             <div class="container1">
                   
                 <button type="button" class="btn btn-outline-secondary" onclick="correlationHeatmap()">Heatmap</button>
-
                 <button type="button" class="btn btn-outline-secondary" onclick="parallelSets()">Parallel Coordinates</button>
              
           </div>
@@ -549,7 +548,7 @@ var title = d3.select("#viz_container")
               <button type="button" class="btn btn-outline-secondary" onclick="mortalityRate()">Child Mortality Rate</button>
                 <button type="button" class="btn btn-outline-secondary" onclick="laborForce()">Labor Force Participation</button>
                 <button type="button" class="btn btn-outline-secondary" onclick="contraceptive()">Modern Contraceptive</button>
-                <button type="button" class="btn btn-outline-secondary" onclick="clearChart()">Collapse All</button>
+                <!-- <button type="button" class="btn btn-outline-secondary" onclick="clearChart()">Collapse All</button> -->
               
               <!-- <table class="table">
         
@@ -1150,12 +1149,12 @@ var title = d3.select("#viz_container")
                   return numerator / denominator;
                 }
             
-                // Tooltip
-                var tooltip = d3
-                  .select("body")
-                  .append("div")
-                  .attr("class", "tooltip")
-                  .style("opacity", 0);
+              //   // Tooltip
+              //   var tooltip = d3
+              //     .select("body")
+              //     .append("div")
+              //     .attr("class", "tooltip")
+              //     .style("opacity", 0);
               }
             
               function parallelSets() {
