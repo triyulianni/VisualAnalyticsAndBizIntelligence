@@ -378,7 +378,6 @@ var title = d3.select("#viz_container")
     data = data.filter(function(d){return d.Year==year})
     
     data = data.filter(function(d){return d.Country==selectedCountry})
-    console.log(data)
     if (data.length== 0){
       
       d3.select("#viz_container").append("p")
@@ -1512,7 +1511,6 @@ var title = d3.select("#viz_container")
             
                 // Load data
                 d3.csv("data/CombinedData.csv", function (data) {
-                  console.log(data)
                   // Add X axis
                   var x = d3
                     .scaleLinear()

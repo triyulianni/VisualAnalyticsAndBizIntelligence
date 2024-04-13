@@ -556,20 +556,25 @@
   </script>
 
   <script>
+      isEducationChartShown = false;
+      isWorkChartShown = false;
+      isContraceptivesChartShown = false;
+      isChildLifespanChartShown = false;
+
       function clearChart() {
         d3.selectAll("svg").remove();
         d3.select("#my_dataviz p").remove();
         d3.select("#my_dataviz1 p").remove();
         d3.select("#my_dataviz2 p").remove();
         d3.select("#my_dataviz3 p").remove();
+        plotWhatIfGraphs("demographics")
       } 
 
       
-      function education() {
-
-    // clearChart("#my_dataviz");
+  function education() {
+    if (isEducationChartShown == false) {          
+    
     // Set up dimensions for the plot
-  
     var margin = { top: 30, right: 30, bottom: 50, left: 50 },
       width = 500 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
@@ -596,7 +601,6 @@
 
     // Load data
     d3.csv("data/CombinedData.csv", function (data) {
-      console.log(data)
       // Add X axis
       var x = d3
         .scaleLinear()
@@ -676,10 +680,18 @@
         .attr("r", 5)
         .style("fill", "#69b3a2");
     });
+    isEducationChartShown = true
+    }
+    else{
+      clearChart();
+      isEducationChartShown = false
+    }
+   
+    
   }
 
   function laborForce() {
-    // clearChart();
+    if (isWorkChartShown == false) {  
     // Set up dimensions for the plot
     var margin = { top: 50, right: 30, bottom: 50, left: 50 },
       width = 500 - margin.left - margin.right,
@@ -784,10 +796,16 @@
         .attr("r", 5)
         .style("fill", "#69b3a2");
     });
+    isWorkChartShown = true
+    }
+    else {
+      clearChart();
+      isWorkChartShown = false
+    }
   }
 
   function contraceptive() {
-    // clearChart();
+     if (isContraceptivesChartShown == false) {          
     // Set up dimensions for the plot
     var margin = { top: 50, right: 30, bottom: 50, left: 50},
       width = 500 - margin.left - margin.right,
@@ -894,10 +912,16 @@
         .attr("r", 5)
         .style("fill", "#69b3a2");
     });
+    isContraceptivesChartShown = true
+      }
+    else {
+        clearChart();
+        isContraceptivesChartShown = false
+      }
   }
 
   function mortalityRate() {
-    // clearChart();
+     if (isChildLifespanChartShown == false) {          
     // Set up dimensions for the plot
     var margin = { top: 50, right: 30, bottom: 50, left: 50},
       width = 500 - margin.left - margin.right,
@@ -1002,6 +1026,14 @@
         .attr("r", 5)
         .style("fill", "#69b3a2");
     });
+    isChildLifespanChartShown = true
+    }
+    else {
+      clearChart();
+      isChildLifespanChartShown = false
+    }
+
+    
   }
 
   </script>
