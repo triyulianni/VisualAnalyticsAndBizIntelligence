@@ -105,16 +105,11 @@
         </div>
       </div>
     </div>
-  </header>
-  
-  
+  </header>  
   
   <!-- ***** Header Area End ***** -->
-
   <div class="page-heading">
-  
     <h6 class="text-center mt-0">Our visualisations</h6>
-
       <ul class="nav nav-tabs justify-content-center py-3" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
           <button class="nav-link active" id="task1-tab" data-bs-toggle="tab" data-bs-target="#task1" type="button" role="tab" aria-controls="task1" aria-selected="true">Task 1</button>
@@ -127,21 +122,16 @@
         </li>
       </ul>
       
-
       <div class="tab-content py-4" id="myTabContent">
         <div class="tab-pane fade show active" id="task1" role="tabpanel" aria-labelledby="task1-tab">
             <div class = "container">
                 <h6 class="pb-2 text-center">An Overview of Population and Fertility Rate Statistics</h6> <br><br>
             </div> 
 
-
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
 
-<!-- python3 -m http.server 8000 -->
-
 <!-- select buttons -->
-
 <div id="selectionBox"> 
   <select id="selectButtonCountry"></select>
   <button type="button" id="selectSg" class="btn btn-secondary">Singapore</button>
@@ -183,14 +173,13 @@ var selectedCountry = "All"
 populationPyramid("1950")
 
 function fertilityOverTime(){
-    // set the dimensions and margins of the graph
     var dataFilter = []
-    
+
+     // set the dimensions and margins of the graph
     var margin = {top: 20, right: 30, bottom: 60, left: 60},
         width = 500 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
     
-
     // append the svg object to the body of the page
     var svg = d3.select("#my_dataviz")
       .append("svg")
@@ -203,7 +192,6 @@ function fertilityOverTime(){
     //Read the data
       d3.csv("data/children-per-woman-un.csv", function(data) {
     
-        // dataFilter = data
         var allGroup = d3.map(data, function(d){return(d.name)}).keys()
         // add the options to the button
         d3.select("#selectButtonCountry")
@@ -321,7 +309,6 @@ function fertilityOverTime(){
                 .x(function(d) { return x(d.year) })
                 .y(function(d) { return y(+d.n) })
               )
-              // .attr("stroke", function(d){ return myColor(selectedGroup) })
         }
         selectedCountry = "Singapore"
         updateFertilityLine("All")
@@ -331,7 +318,7 @@ function fertilityOverTime(){
     // Define the bisectDate function
 var bisectDate = d3.bisector(function(d) { return d.year; }).left;
 
-// Now you can use the bisectDate function in your mousemove function
+// use the bisectDate function in mousemove function
 function mousemove() {
     var x0 = x.invert(d3.mouse(this)[0]);
     var i = bisectDate(dataFilter, x0, 1);
@@ -342,7 +329,6 @@ function mousemove() {
     Tooltip.html("Year: <b>" + d.year + "</b> <br>"+ "Fertility Rate: <b>" + d.n + "</b>");
     populationPyramid(d.year);
   }
-
      })
     }
 
@@ -372,9 +358,6 @@ var title = d3.select("#viz_container")
 
   // parse the Data
   d3.csv("data/population_pyramid.csv", function(data){
-    //data = data.filter(function(d){return d.Country==country})
-    
-    // data = data.filter(function(d){return d.Year==year})
     data = data.filter(function(d){return d.Year==year})
     
     data = data.filter(function(d){return d.Country==selectedCountry})
@@ -481,11 +464,7 @@ var title = d3.select("#viz_container")
           .attr("x", 60)
           .attr("y", -(margin.top/5.5))
       .text("Female")
-
-
     }
-    
-
   })
 }
     </script>
@@ -516,8 +495,7 @@ var title = d3.select("#viz_container")
     body {
       text-align: center;
     }
-    
-
+  
 
 </style>
 
@@ -530,7 +508,6 @@ var title = d3.select("#viz_container")
             <div class="col">
               <h6 class="pb-2 text-center">Exploring Relationships between Factors of Low or High Fertility Rates</h6>
             </div>
-            <!-- <div id="observablehq-chart-c0e013e6"></div>  -->
             <div class="container1">
                   
                 <button type="button" class="btn btn-outline-secondary" onclick="correlationHeatmap()">Heatmap</button>
@@ -547,69 +524,8 @@ var title = d3.select("#viz_container")
               <button type="button" class="btn btn-outline-secondary" onclick="mortalityRate()">Child Mortality Rate</button>
                 <button type="button" class="btn btn-outline-secondary" onclick="laborForce()">Labor Force Participation</button>
                 <button type="button" class="btn btn-outline-secondary" onclick="contraceptive()">Modern Contraceptive</button>
-                <!-- <button type="button" class="btn btn-outline-secondary" onclick="clearChart()">Collapse All</button> -->
-              
-              <!-- <table class="table">
-        
-                <tbody>
-
-                  <tr>
-                    <td class="text-center" colspan="2">
-                      <script>scatterplotMatrix()</script>
-                    </td>
-                  </tr> 
-                  
-                  <tr>
-                    <td class="text-center" colspan="2">
-                      <div id="my_dataviz1"></div>
-                      <img id="image"
-                  src="assets/images/heatmap.png" />
-                    </td>
-                  </tr>
-                  
-                  <tr>
-                    <td class="text-center" colspan="2" id="my_dataviz2">
-                      <div id="my_dataviz2"></div>
-                      <img id="imagep3"
-                  src="assets/images/parallelsets.png" />
-                    </td>
-                  </tr> 
-                      
-                </tbody>
-              </table> -->
             </div>
 
-            <!-- <div>
-              <div class="col justify-content-center">
-                <h6 class="pb-2 text-center">Scatterplots of Factors</h6>
-              </div>
-
-              <div style="text-align: center;">
-                <row style="text-align: center;">
-                  <button type="button" class="btn btn-outline-secondary" onclick="scatterplotMatrix()">Scatterplot</button>
-                <button type="button" class="btn btn-outline-secondary" onclick="education()">Education Attainment</button>
-                <button type="button" class="btn btn-outline-secondary" onclick="mortalityRate()">Child Mortality Rate</button>
-                <button type="button" class="btn btn-outline-secondary" onclick="laborForce()">Labor Force Participation</button>
-                <button type="button" class="btn btn-outline-secondary" onclick="contraceptive()">Modern Contraceptive</button>
-                <button type="button" class="btn btn-outline-secondary" onclick="clearChart()">Collapse All</button>
-                </row>
-            </div>
-            
-          </div> -->
-            
-            <!-- <script type="module">
-              import {
-                Runtime,
-                Inspector,
-              } from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
-              import define from "https://api.observablehq.com/d/a2eb0714a8e5d43c.js?v=4";
-              new Runtime().module(define, (name) => {
-                if (name === "chart")
-                  return new Inspector(
-                    document.querySelector("#observablehq-chart-c0e013e6")
-                  );
-              });
-            </script> -->
             
             <script>
               function clearChart() {
@@ -654,16 +570,6 @@ var title = d3.select("#viz_container")
                     .on("start", brushstart)
                     .on("brush", brushmove)
                     .on("end", brushend);
-            
-                  // var marginLeft = 100; // Adjust the desired left margin value
-            
-                  // var svg = d3
-                  //   .select("body")
-                  //   .append("svg")
-                  //   .attr("width", size * traits.length + 80) // Include the left margin in the SVG width
-                  //   .attr("height", size * traits.length + 90)
-                  //   .append("g")
-                  //   .attr("transform", "translate(" + 80 + "," + 80 / 2 + ")"); // Translate the SVG by the left margin amount
             
                   var margin = { top: 80, right: 50, bottom: 50, left: 80 };
                   var svgWidth = size * traits.length + margin.left + margin.right;
@@ -712,9 +618,6 @@ var title = d3.select("#viz_container")
                         .attr("x", 7) // Adjust the position of the label along the x-axis
                         .attr("y", -20) // Adjust the position of the label along the y-axis
                         .style("text-anchor", "start")
-                        // .text(function (d) {
-                        //   return d; // Display full text without truncation
-                        // })
                         .text(function (d) {
                           return d.length > 60 ? d.substring(0, 60) + "..." : d;
                         })
@@ -752,9 +655,6 @@ var title = d3.select("#viz_container")
                         .text(function (d) {
                           return d.length > 50 ? d.substring(0, 50) + "..." : d;
                         })
-                        // .text(function (d) {
-                        //   return d; // Display full text without truncation
-                        // })
                         .style("font-size", "12px"); // Increase font size to 14 pixels
                     });
                     
@@ -911,17 +811,6 @@ var title = d3.select("#viz_container")
                   .style("font-size", "16px")
                   .text("Correlation Heatmap: Explore how various factors correlate with fertility rates."); // Adjust the title text as needed
             
-                // Add additional information text
-                // svg
-                //   .append("text")
-                //   .attr("x", width / 2)
-                //   .attr("y", -120)
-                //   .attr("text-anchor", "middle")
-                //   .style("font-size", "16px")
-                //   .text(
-                //     "Explore how various factors correlate with fertility rates."
-                //   );
-            
                 // Labels of rows and columns
                 var myVars = [
                   "Females' length of education",
@@ -980,21 +869,6 @@ var title = d3.select("#viz_container")
                     .style("fill", function (d) {
                       return colorScale(d.value);
                     });
-                    // .on("mouseover", function (d) {
-                    //   tooltip
-                    //     .style("opacity", 1)
-                    //     .style("left", d3.event.pageX + "px")
-                    //     .style("top", d3.event.pageY + "px");
-                    //   tooltip.html("Correlation: " + d.value.toFixed(2));
-                    // })
-                    // .on("mousemove", function (d) {
-                    //   tooltip
-                    //     .style("left", d3.event.pageX + "px")
-                    //     .style("top", d3.event.pageY + "px");
-                    // })
-                    // .on("mouseout", function (d) {
-                    //   tooltip.style("opacity", 0);
-                    // });
             
                   // Define legend scale
                   var legendScale = d3
@@ -1148,12 +1022,6 @@ var title = d3.select("#viz_container")
                   return numerator / denominator;
                 }
             
-              //   // Tooltip
-              //   var tooltip = d3
-              //     .select("body")
-              //     .append("div")
-              //     .attr("class", "tooltip")
-              //     .style("opacity", 0);
               }
             
               function parallelSets() {
@@ -1189,10 +1057,6 @@ var title = d3.select("#viz_container")
                     "Child mortality rate",
                     "Fertility rate",
                     "Contraceptive prevalence",
-                    
-                    
-                    
-  
                   ];
             
                   // Calculate the maximum and minimum values for each dimension
@@ -1267,7 +1131,6 @@ var title = d3.select("#viz_container")
                     .append("text")
                     .style("text-anchor", "start")
                     .attr("y", -9)
-                    // .attr("transform", "rotate(-45)")
                     .text(function (d) {
                       // Shorten the dimension label to the first 30 characters
                       return d;
@@ -1950,12 +1813,7 @@ var title = d3.select("#viz_container")
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
-    -->
-
+  
     <!-- <DO NOT TOUCH> -->
     <!-- Axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
